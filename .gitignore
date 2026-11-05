@@ -1,0 +1,15 @@
+# Originalbilder, PDF-meny og arbeidsfiler – holdes lokalt (store filer)
+Referanse bilder/
+_contact.jpg
+_lokale_contact.jpg
+
+# System
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Verktøy / deploy
+.vscode/
+.wrangler/
+node_modules/
+dist/
