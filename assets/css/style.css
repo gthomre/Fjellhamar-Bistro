@@ -768,3 +768,5 @@ p { margin: 0 0 1em; }
 @media (max-width: 640px) {
   .dish-card .price-badge .ta-tag { left: auto; right: -2px; transform: none; font-size: 0.7rem; padding: 4px 9px 3px; }
 }
+
+.hours-list .kitchen { margin-top: 6px; font-style: italic; opacity: 0.88; }

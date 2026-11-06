@@ -4,6 +4,7 @@
   document.documentElement.classList.remove("no-js");
 
   var HOURS = { 0: ["14:00", "22:00"], 1: null, 2: ["14:00", "22:30"], 3: ["14:00", "22:30"], 4: ["14:00", "22:30"], 5: ["14:00", "23:30"], 6: ["14:00", "23:30"] };
+  var KITCHEN = "21:30"; /* kjøkkenet stenger (alle åpne dager) */
   var DAYS = ["søndag", "mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"];
   var EMAIL = "helen.haiqiu@gmail.com";
 
@@ -61,8 +62,11 @@
   }
   function status() {
     var now = osloNow(), h = HOURS[now.day];
-    if (h && now.min >= toMin(h[0]) && now.min < toMin(h[1])) return { open: true, label: "Åpent nå", detail: "Til kl. " + h[1] + " i dag", day: now.day };
-    if (h && now.min < toMin(h[0])) return { open: false, label: "Åpner kl. " + h[0], detail: "I dag " + h[0] + " – " + h[1], day: now.day };
+    if (h && now.min >= toMin(h[0]) && now.min < toMin(h[1])) {
+      if (now.min >= toMin(KITCHEN)) return { open: true, label: "Åpent nå", detail: "Kjøkkenet er stengt · baren åpen til " + h[1], day: now.day };
+      return { open: true, label: "Åpent nå", detail: "Til kl. " + h[1] + " · kjøkken til " + KITCHEN, day: now.day };
+    }
+    if (h && now.min < toMin(h[0])) return { open: false, label: "Åpner kl. " + h[0], detail: "I dag " + h[0] + " – " + h[1] + " · kjøkken til " + KITCHEN, day: now.day };
     var n = nextOpening(now.day);
     return { open: false, label: "Stengt nå", detail: "Åpner " + (n.i === 1 ? "i morgen" : DAYS[n.day]) + " kl. " + n.t, day: now.day };
   }
@@ -120,7 +124,8 @@
         note.textContent = "Vi holder stengt på mandager – velg gjerne en annen dag."; note.classList.add("warn"); return;
       }
       var opts = ['<option value="">Velg tid</option>'];
-      for (var m = toMin(h[0]); m <= toMin(h[1]) - 90; m += 30) {
+      var last = Math.min(toMin(h[1]) - 90, toMin(KITCHEN) - 30); /* siste bord: senest 30 min før kjøkkenet stenger */
+      for (var m = toMin(h[0]); m <= last; m += 30) {
         var t = String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
         opts.push("<option>" + t + "</option>");
       }
