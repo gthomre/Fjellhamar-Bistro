@@ -1,0 +1,8 @@
+{
+  // Cloudflare: publiser innholdet i dist/ (lages av build.py)
+  "name": "fjellhamar-bistro",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}
