@@ -26,7 +26,7 @@
       '<div class="price-badge"><div><small>Per person</small><strong>' + SPECIAL.price + ',-</strong></div></div></div>' +
       '<div class="body"><span class="script">Bistro</span><h3>Spesial kombo</h3>' +
       SPECIAL.options.map(function (o) {
-        return '<div class="special-option menu-item-lite" data-a="' + o.a.join(",") + '"><h4><b>' + o.key + ")</b>" + esc(o.no) + "</h4><p>" + esc(o.en) + '</p><p class="allergen-line">Allergener: ' + o.a.map(function (n) { return A[n]; }).join(", ") + "</p></div>";
+        return '<div class="special-option menu-item-lite" data-a="' + o.a.join(",") + '"><h4><b>' + o.key + ")</b>" + esc(o.no) + window.BISTRO_BADGES(o) + "</h4><p>" + esc(o.en) + '</p><p class="allergen-line">Allergener: ' + o.a.map(function (n) { return A[n]; }).join(", ") + "</p></div>";
       }).join("") + "</div>";
   }
 
@@ -40,7 +40,7 @@
     if (it.veg) chips = '<span style="background:#e3f1e3;color:#2f6b34">Vegetar</span>' + chips;
     if (it.nor) chips = '<span style="background:#e8eef7;color:#2f4a73">Norsk klassiker</span>' + chips;
     return '<li class="menu-item" data-a="' + it.a.join(",") + '">' + media +
-      "<div><h4>" + (it.n && !it.img ? '<span class="sr-only">Nr. ' + esc(it.n) + " </span>" : "") + esc(it.no) + '</h4><p class="en">' + esc(it.en) + '</p><div class="allergens">' + chips + "</div></div>" +
+      "<div><h4>" + (it.n && !it.img ? '<span class="sr-only">Nr. ' + esc(it.n) + " </span>" : "") + esc(it.no) + window.BISTRO_BADGES(it) + '</h4><p class="en">' + esc(it.en) + '</p><div class="allergens">' + chips + "</div></div>" +
       '<span class="price">' + kr(it.p) + "</span></li>";
   }
   if (root && MENU) {

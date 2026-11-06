@@ -1,36 +1,42 @@
-/* Fjellhamar Bistro – menydata (kilde: «Meny 18.10.2026.pdf»)
+/* Fjellhamar Bistro – menydata (kilde: «Meny 18.10.2026.docx», riktig versjon)
    Endre priser/retter her, så oppdateres både forsiden og menysiden. */
+/* Merker på retter: hot: true = chili-ikon (sterk), new: true = «Nyhet»-merke */
+window.BISTRO_BADGES = function (it) {
+  return (it.hot ? '<svg class="chili" viewBox="0 0 24 24" role="img" aria-label="Sterk"><title>Sterk</title><path d="M15.2 7.6c1.9.6 2.6 2.6 1.7 4.7-1.8 4.3-6.6 8.3-12.2 8.9-1 .1-1.3-1.1-.4-1.5 4.2-2 6.4-5.3 7.3-9.4.5-2.3 1.8-3.3 3.6-2.7Z" fill="#c8161d"/><path d="M15.4 7.7c.1-1.9 1.1-3.5 2.9-4.4M14 7.9c.8-.9 2.3-1.1 3.6-.6" fill="none" stroke="#3d7a2c" stroke-width="1.8" stroke-linecap="round"/></svg>' : "") +
+    (it.new ? '<span class="badge-new">Nyhet</span>' : "");
+};
+
 window.BISTRO_ALLERGENS = {
   1: "Skalldyr", 2: "Egg", 3: "Fisk", 4: "Peanøtter", 5: "Soya", 6: "Melk", 7: "Nøtter",
   8: "Selleri", 9: "Sennep", 10: "Sesamfrø", 11: "Sulfitter", 12: "Lupin", 13: "Bløtdyr", 14: "Gluten"
 };
 
 window.BISTRO_COMBOS = [
-  { name: "Meny A", min: "Minimum 2 personer", price: 399, courses: [
-    { icon: "i-soup", no: "PEKING SOUP", en: "Hot and sour soup", a: [5, 14, 2] },
-    { icon: "i-bowl", no: "KYLLING A LA SZECHUAN", en: "Chicken a la Szechuan", a: [14, 5] },
+  { name: "Meny A", min: "Minimum 2 personer", price: 449, courses: [
+    { icon: "i-soup", no: "PEKING SOUP", en: "Hot and sour soup", a: [5, 14, 2], hot: true },
+    { icon: "i-bowl", no: "KYLLING A LA SZECHUAN", en: "Chicken a la Szechuan", a: [14, 5], hot: true },
     { icon: "i-cloche", no: "INNBAKT SVINEKJØTT MED SURSØT SAUS", en: "Fried pork with sweet and sour sauce", a: [14, 6, 2] },
     { icon: "i-ice", no: "FRITERT BANAN MED ISKREM OG KAFFE", en: "Deep fried banana with ice cream. Coffee included", a: [6, 5, 2], dessert: true }
   ]},
-  { name: "Meny B", min: "Minimum 2 personer", price: 459, courses: [
+  { name: "Meny B", min: "Minimum 2 personer", price: 529, courses: [
     { icon: "i-roll", no: "HJEMMELAGET SZECHUAN VÅRRULLER OG WONTON", en: "Homemade Szechuan spring rolls and wonton", a: [14, 2] },
-    { icon: "i-bowl", no: "KYLLING SATAY", en: "Chicken in satay sauce", a: [7, 1, 14] },
-    { icon: "i-cloche", no: "SPRØSTEKT OKSEKJØTT I SURSØT SAUS", en: "Dry fried shredded beef in sweet and sour sauce", a: [14] },
+    { icon: "i-bowl", no: "KYLLING SATAY", en: "Chicken in satay sauce", a: [7, 1, 14], hot: true },
+    { icon: "i-cloche", no: "SPRØSTEKT OKSEKJØTT I SURSØT SAUS", en: "Dry fried shredded beef in sweet and sour sauce", a: [14], hot: true },
     { icon: "i-ice", no: "FRITERT BANAN MED ISKREM OG KAFFE", en: "Deep fried banana with ice cream. Coffee included", a: [6, 14, 2], dessert: true }
   ]},
-  { name: "Meny C", min: "Minimum 2 personer", price: 549, courses: [
+  { name: "Meny C", min: "Minimum 2 personer", price: 699, courses: [
     { icon: "i-dumpling", no: "DIM SUM KOMBO", en: "Beef spring rolls, Ha Gau, Siu Mai, Tempura Scampi and Jiao Zi", a: [1, 5, 14, 2] },
-    { icon: "i-plate", no: "TEPPAN OKSEINDREFILET I VARM METALLPLATE", en: "Beef tenderloin served with vegetables on a hot metal plate", a: [14, 5] },
-    { icon: "i-cloche", no: "PANG PANG LAMMEFILET", en: "Lamb in Chinese Pang Pang style", a: [14, 2] },
+    { icon: "i-plate", no: "TEPPAN OKSEINDREFILET I VARM METALLPLATE", en: "Beef tenderloin served with vegetables on a hot metal plate", a: [14, 5], hot: true },
+    { icon: "i-cloche", no: "PANG PANG LAMMEFILET", en: "Lamb in Chinese Pang Pang style", a: [14, 2], hot: true },
     { icon: "i-cake", no: "SJOKOLADEFONDANT MED VANILJEIS OG KAFFE", en: "Chocolate fondant with vanilla ice cream. Coffee included", a: [6], dessert: true }
   ]}
 ];
 
 window.BISTRO_SPECIAL = {
-  price: 319,
+  price: 339,
   img: "spesial-kombo-b",
   options: [
-    { key: "A", no: "Tallerken med kombinasjon av Szechuan vårrull, fritert tempura scampi og kylling Gongbao", en: "Combination of Szechuan spring rolls, fried tempura scampi and Chicken Gongbao", a: [7, 5, 14, 1] },
+    { key: "A", no: "Tallerken med kombinasjon av Szechuan vårrull, fritert tempura scampi og kylling Gongbao", en: "Combination of Szechuan spring rolls, fried tempura scampi and Chicken Gongbao", a: [7, 5, 14, 1], hot: true },
     { key: "B", no: "Tallerken med kombinasjon av Szechuan vårrull, fritert tempura scampi og biff Chopsuey", en: "Combination of Szechuan spring rolls, fried tempura scampi and Beef Chopsuey", a: [7, 5, 14, 1] }
   ]
 };
@@ -46,18 +52,18 @@ window.BISTRO_MENU = [
     { n: "6", no: "Siu Mai (svinekjøtt dumpling)", en: "Steamed pork dumplings served with soy sauce", p: 105, a: [1, 5, 14, 2], img: "siu-mai" },
     { n: "7", no: "Hjemmelaget biff vårrull", en: "Spring roll with beef served in sweet and sour sauce", p: 95, a: [14] },
     { n: "8", no: "Jiao Zi (svinekjøtt dumpling)", en: "3 pieces pan fried dumplings", p: 95, a: [14], img: "jiao-zi" },
-    { n: "9", no: "Peking suppe", en: "Peking soup – hot and sour", p: 105, a: [5, 14, 2], img: "peking-suppe" },
-    { n: "", no: "Wontonsuppe", en: "Wonton soup with 8 dumplings with pork mince and scampi", p: 125, a: [5, 14, 1, 10] },
-    { n: "", no: "Innbakt kylling med salat og pommes frites", en: "2 pieces of deep fried chicken with salad, sweet and sour sauce and pommes frites", p: 149, a: [14] },
+    { n: "9", no: "Peking suppe", en: "Peking soup – hot and sour", p: 105, a: [5, 14, 2], img: "peking-suppe", hot: true },
+    { n: "", no: "Wontonsuppe", en: "Wonton soup with 8 dumplings with pork mince and scampi", p: 125, a: [5, 14, 1, 10], new: true },
+    { n: "", no: "Innbakt kylling med salat og pommes frites", en: "2 pieces of deep fried chicken with salad, sweet and sour sauce and pommes frites", p: 149, a: [14], new: true },
     { n: "", no: "Rekechips", en: "Prawn crackers", p: 59, a: [] },
-    { n: "", no: "Dim sum kurv", en: "2 × Jiao Zi, 1 × chicken spring roll, 2 × deep fried wonton, 1 × tempura scampi", p: 205, a: [14, 1, 2] }
+    { n: "", no: "Dim sum kurv", en: "2 × Jiao Zi, 1 × chicken spring roll, 2 × deep fried wonton, 1 × tempura scampi", p: 205, a: [14, 1, 2], new: true }
   ]}]},
 
   { id: "kylling", title: "Kylling", script: "Hovedretter", sub: "Chicken", groups: [ { items: [
-    { n: "010", no: "Ma La kylling", en: "Deep fried Ma La chicken with vegetables in Chinese pepper sauce", p: 239, a: [5, 14], hot: true },
-    { n: "10", no: "Kylling Gongbao med cashewnøtter", en: "Gong Bao chicken with stir-fried vegetables, topped with cashew nuts", p: 239, a: [7, 5, 14] },
-    { n: "11", no: "Kylling satay", en: "Sliced chicken in satay sauce served with vegetables", p: 239, a: [7, 1, 14], img: "kylling-satay" },
-    { n: "12", no: "Kylling karri", en: "Sliced chicken in curry sauce served with vegetables", p: 229, a: [14] },
+    { n: "010", no: "Ma La kylling", en: "Deep fried Ma La chicken with vegetables in Chinese pepper sauce", p: 239, a: [5, 14], hot: true, new: true },
+    { n: "10", no: "Kylling Gongbao med cashewnøtter", en: "Gong Bao chicken with stir-fried vegetables, topped with cashew nuts", p: 239, a: [7, 5, 14], hot: true },
+    { n: "11", no: "Kylling satay", en: "Sliced chicken in satay sauce served with vegetables", p: 239, a: [7, 1, 14], img: "kylling-satay", hot: true },
+    { n: "12", no: "Kylling karri", en: "Sliced chicken in curry sauce served with vegetables", p: 229, a: [14], hot: true },
     { n: "13", no: "Frityrstekt kylling med sursøt saus", en: "Deep fried chicken in sweet and sour sauce served with vegetables", p: 229, a: [14, 2] },
     { n: "14", no: "Kylling chopsuey", en: "Sliced chicken in chopsuey sauce served with vegetables", p: 229, a: [5] },
     { n: "15", no: "Kylling i rød karri", en: "Sliced chicken in red curry sauce served with vegetables", p: 229, a: [14, 5, 2], img: "kylling-rod-karri", hot: true },
@@ -65,16 +71,16 @@ window.BISTRO_MENU = [
   ]}]},
 
   { id: "biff", title: "Biff", script: "Hovedretter", sub: "Beef", groups: [ { items: [
-    { n: "017", no: "Biff Gongbao med cashewnøtter", en: "Shredded beef Gongbao with cashew nuts", p: 259, a: [14, 5], img: "biff-gongbao" },
+    { n: "017", no: "Biff Gongbao med cashewnøtter", en: "Shredded beef Gongbao with cashew nuts", p: 259, a: [14, 5], img: "biff-gongbao", hot: true, new: true },
     { n: "17", no: "Biff chopsuey", en: "Shredded beef chopsuey stir-fried with vegetables", p: 249, a: [14, 5] },
     { n: "18", no: "Biff med brokkoli og babymais", en: "Shredded beef with broccoli and mini corn", p: 249, a: [14], img: "biff-brokkoli" },
     { n: "19", no: "Biff med bambusskudd og sjampinjong", en: "Shredded beef with bamboo shoots and mushrooms", p: 249, a: [14, 3] },
-    { n: "20", no: "Biff karri", en: "Shredded beef with curry sauce", p: 249, a: [7, 14], img: "biff-karri" },
+    { n: "20", no: "Biff karri", en: "Shredded beef with curry sauce", p: 249, a: [7, 14], img: "biff-karri", hot: true },
     { n: "21", no: "Kinesisk pepperbiff", en: "Chinese shredded pepper beef stir-fried with vegetables and Chinese chili sauce", p: 259, a: [14, 5], hot: true },
-    { n: "22", no: "Pang Pang biff", en: "Thick strips of beef tenderloin stir-fried with vegetables in special Pang Pang sauce", p: 349, a: [14, 5, 1] },
-    { n: "23", no: "Sprøstekt oksekjøtt i sursøt saus", en: "Crispy fried shredded beef served with sweet and sour sauce", p: 299, a: [14], img: "sprostekt-oksekjott" },
+    { n: "22", no: "Pang Pang biff", en: "Thick strips of beef tenderloin stir-fried with vegetables in special Pang Pang sauce", p: 349, a: [14, 5, 1], hot: true },
+    { n: "23", no: "Sprøstekt oksekjøtt i sursøt saus", en: "Crispy fried shredded beef served with sweet and sour sauce", p: 299, a: [14], img: "sprostekt-oksekjott", hot: true },
     { n: "24", no: "Biffsnadder med pommes frites", en: "Shredded beef served with béarnaise sauce, salad and pommes frites", p: 249, a: [14, 6], img: "biffsnadder", nor: true },
-    { n: "25", no: "Teppan okseindrefilet", en: "Beef tenderloin served with vegetables on a hot metal plate", p: 349, a: [14, 5] },
+    { n: "25", no: "Teppan okseindrefilet", en: "Beef tenderloin served with vegetables on a hot metal plate", p: 349, a: [14, 5], hot: true },
     { n: "26", no: "Hjemmelaget karbonader", en: "Chopped steak served with vegetables, potatoes and brown sauce", p: 229, a: [14, 6], img: "karbonader", nor: true },
     { n: "27", no: "Pepperstek biff (200 g)", en: "Beef steak served with potatoes, salad and pepper sauce", p: 419, a: [14, 6], nor: true },
     { n: "34", no: "Szechuan biff", en: "Shredded beef in Szechuan sauce served with stir-fried vegetables", p: 249, a: [14, 6], hot: true }
@@ -109,7 +115,7 @@ window.BISTRO_MENU = [
     { n: "42", no: "Stekt ris i karri med egg, scampi, kylling og skinke", en: "Curry fried rice with egg, scampi, chicken and ham with vegetables", p: 219, a: [2, 14, 5, 1] },
     { n: "43", no: "Stekte nudler med kylling (soyasausbasert)", en: "Fried noodles with chicken and vegetables in soy sauce", p: 229, a: [14, 5] },
     { n: "44", no: "Stekte nudler med biff (soyasausbasert)", en: "Fried noodles with beef and vegetables in soy sauce", p: 229, a: [14, 5] },
-    { n: "45", no: "Stekte nudler mixed med biff, kylling og scampi i satay", en: "Fried noodles with beef, chicken and scampi in satay sauce", p: 249, a: [14, 5, 1], img: "stekte-nudler" },
+    { n: "45", no: "Stekte nudler mixed med biff, kylling og scampi i shacha", en: "Fried noodles with beef, chicken and scampi in barbecue sauce", p: 249, a: [14, 5, 1, 3, 10], img: "stekte-nudler" },
     { n: "46", no: "Omelett med skinke, ost og sjampinjong", en: "Omelette with ham, cheese and mushroom, served with pommes frites", p: 199, a: [2], nor: true },
     { n: "47", no: "Dagens grønnsakswok med tofu", en: "Stir-fried vegetables with tofu", p: 199, a: [5, 1], veg: true }
   ]}]},
@@ -126,7 +132,7 @@ window.BISTRO_MENU = [
     { n: "53", no: "Banansplitt med kuleis og krem", en: "Banana split with ice cream, cream and fruits", p: 110, a: [14, 6, 7, 2] },
     { n: "54", no: "Varm eplepai med kuleis", en: "Warm apple cake with ice cream and fruits", p: 125, a: [6, 14, 2] },
     { n: "55", no: "Sjokoladefondant med kuleis", en: "Chocolate fondant served with fruit and ice cream", p: 139, a: [6, 2] },
-    { n: "56", no: "Crème brûlée", en: "Crème brûlée", p: 125, a: [6, 2] },
+    { n: "56", no: "Crème brûlée", en: "Crème brûlée", p: 125, a: [6, 2], new: true },
     { n: "57", no: "Sorbet med dagens frukt", en: "Sorbet with fruits – lactose and gluten free", p: 75, a: [] }
   ]}]},
 

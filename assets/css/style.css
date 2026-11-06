@@ -715,3 +715,11 @@ p { margin: 0 0 1em; }
   body.nav-open { overflow: hidden; }
 }
 @media (max-width: 340px) { .mobile-nav-cta { grid-template-columns: 1fr; } }
+
+/* Merker på retter: chili (sterk) og nyhet */
+.chili { display: inline-block; width: 1.15em; height: 1.15em; margin-left: 6px; vertical-align: -0.2em; }
+.badge-new {
+  display: inline-block; margin-left: 8px; padding: 3px 9px 2px; border-radius: 999px; background: var(--red); color: #fff;
+  font-family: var(--f-display); font-weight: 900; font-size: 0.62rem; line-height: 1.3; letter-spacing: 0.1em; text-transform: uppercase;
+  vertical-align: 0.15em; box-shadow: 0 4px 10px -4px rgba(181,18,27,0.6); white-space: nowrap;
+}

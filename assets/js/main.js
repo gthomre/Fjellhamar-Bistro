@@ -83,7 +83,7 @@
         '<div class="combo-top"><div><h3>' + esc(m.name) + "</h3><p>" + esc(m.min) + '</p></div>' +
         '<div class="combo-price"><small>Per person:</small><strong>kr. ' + m.price + ",-</strong></div></div>" +
         '<ul class="combo-list">' + m.courses.map(function (c) {
-          return '<li><svg class="icon" aria-hidden="true"><use href="#' + c.icon + '"/></svg><div><h4' + (c.dessert ? ' class="dessert"' : "") + ">" + esc(c.no) + "</h4><p>" + esc(c.en) + '</p><p class="allergen-line">Allergener: ' + c.a.join(", ") + "</p></div></li>";
+          return '<li><svg class="icon" aria-hidden="true"><use href="#' + c.icon + '"/></svg><div><h4' + (c.dessert ? ' class="dessert"' : "") + ">" + esc(c.no) + (window.BISTRO_BADGES ? window.BISTRO_BADGES(c) : "") + "</h4><p>" + esc(c.en) + '</p><p class="allergen-line">Allergener: ' + c.a.join(", ") + "</p></div></li>";
         }).join("") + "</ul></article>";
     }).join("");
   }
