@@ -82,10 +82,26 @@
       return '<article class="combo-card reveal is-visible reveal-d' + i + '">' +
         '<div class="combo-top"><div><h3>' + esc(m.name) + "</h3><p>" + esc(m.min) + '</p></div>' +
         '<div class="combo-price"><small>Per person:</small><strong>kr. ' + m.price + ",-</strong></div></div>" +
+        '<p class="combo-na">Serveres kun i restauranten</p>' +
         '<ul class="combo-list">' + m.courses.map(function (c) {
           return '<li><svg class="icon" aria-hidden="true"><use href="#' + c.icon + '"/></svg><div><h4' + (c.dessert ? ' class="dessert"' : "") + ">" + esc(c.no) + (window.BISTRO_BADGES ? window.BISTRO_BADGES(c) : "") + "</h4><p>" + esc(c.en) + '</p><p class="allergen-line">Allergener: ' + c.a.join(", ") + "</p></div></li>";
         }).join("") + "</ul></article>";
     }).join("");
+  }
+
+  /* ---- Forsidens favoritter: pris, takeaway og merker hentes fra menydataene (rettens nummer) ---- */
+  if (window.BISTRO_MENU) {
+    var byNo = {};
+    window.BISTRO_MENU.forEach(function (c) { c.groups.forEach(function (g) { g.items.forEach(function (it) { if (it.n) byNo[it.n] = it; }); }); });
+    $$("[data-dish]").forEach(function (b) {
+      var it = byNo[b.getAttribute("data-dish")]; if (!it) return;
+      var s = $("strong", b); if (s) s.textContent = s.textContent.replace(/\d+/, it.p);
+      if (it.t) b.insertAdjacentHTML("beforeend", '<span class="ta-tag"><span>Takeaway</span> ' + it.t + ",-</span>");
+    });
+    $$("[data-dish-title]").forEach(function (h) {
+      var it = byNo[h.getAttribute("data-dish-title")];
+      if (it && window.BISTRO_BADGES) h.insertAdjacentHTML("beforeend", window.BISTRO_BADGES(it));
+    });
   }
 
   /* ---- Bordbestilling ---- */

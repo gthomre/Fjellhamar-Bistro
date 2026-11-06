@@ -6,6 +6,10 @@
   function $$(s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function kr(p) { return "kr " + p + ",-"; }
+  function priceHTML(it) {
+    return '<span class="price"><span class="p-here">' + kr(it.p) + '</span><span class="p-ta">' +
+      (it.t ? kr(it.t) + "<small>takeaway</small>" : "<em>Kun i restauranten</em>") + "</span></span>";
+  }
 
   /* Kirsebærblomster i hero */
   var fl = $("[data-flowers]");
@@ -23,7 +27,7 @@
   if (sp && SPECIAL) {
     sp.innerHTML =
       '<div class="photo"><img src="assets/img/' + SPECIAL.img + '-800.webp" alt="Bistro spesial kombo B: vårrull, tempura scampi og biff chopsuey" loading="lazy" width="800" height="450">' +
-      '<div class="price-badge"><div><small>Per person</small><strong>' + SPECIAL.price + ',-</strong></div></div></div>' +
+      '<div class="price-badge"><div><small><span class="p-here">Per person</span><span class="p-ta">Takeaway</span></small><strong><span class="p-here">' + SPECIAL.price + ',-</span><span class="p-ta">' + SPECIAL.takeaway + ',-</span></strong></div></div></div>' +
       '<div class="body"><span class="script">Bistro</span><h3>Spesial kombo</h3>' +
       SPECIAL.options.map(function (o) {
         return '<div class="special-option menu-item-lite" data-a="' + o.a.join(",") + '"><h4><b>' + o.key + ")</b>" + esc(o.no) + window.BISTRO_BADGES(o) + "</h4><p>" + esc(o.en) + '</p><p class="allergen-line">Allergener: ' + o.a.map(function (n) { return A[n]; }).join(", ") + "</p></div>";
@@ -34,14 +38,14 @@
   var root = $("[data-menu]");
   function itemHTML(it) {
     var media = it.img
-      ? '<button class="thumb" type="button" data-lb="' + it.img + '" data-name="' + esc(it.no) + '" data-price="' + kr(it.p) + '" aria-label="Se bilde av ' + esc(it.no) + '"><img src="assets/img/' + it.img + '-800.webp" alt="" loading="lazy" width="800" height="450">' + (it.n ? '<span class="tag">' + esc(it.n) + "</span>" : "") + "</button>"
+      ? '<button class="thumb" type="button" data-lb="' + it.img + '" data-name="' + esc(it.no) + '" data-price="' + kr(it.p) + '" data-price-ta="' + (it.t ? kr(it.t) + " (takeaway)" : "Kun i restauranten") + '" aria-label="Se bilde av ' + esc(it.no) + '"><img src="assets/img/' + it.img + '-800.webp" alt="" loading="lazy" width="800" height="450">' + (it.n ? '<span class="tag">' + esc(it.n) + "</span>" : "") + "</button>"
       : '<span class="num" aria-hidden="true">' + (it.n ? esc(it.n) : '<svg class="icon"><use href="#i-utensils"/></svg>') + "</span>";
     var chips = it.a.map(function (n) { return '<span title="' + A[n] + '">' + A[n] + "</span>"; }).join("");
     if (it.veg) chips = '<span style="background:#e3f1e3;color:#2f6b34">Vegetar</span>' + chips;
     if (it.nor) chips = '<span style="background:#e8eef7;color:#2f4a73">Norsk klassiker</span>' + chips;
     return '<li class="menu-item" data-a="' + it.a.join(",") + '">' + media +
       "<div><h4>" + (it.n && !it.img ? '<span class="sr-only">Nr. ' + esc(it.n) + " </span>" : "") + esc(it.no) + window.BISTRO_BADGES(it) + '</h4><p class="en">' + esc(it.en) + '</p><div class="allergens">' + chips + "</div></div>" +
-      '<span class="price">' + kr(it.p) + "</span></li>";
+      priceHTML(it) + "</li>";
   }
   if (root && MENU) {
     root.innerHTML = MENU.map(function (cat) {
@@ -93,6 +97,22 @@
   var nav = $(".cat-nav");
   window.addEventListener("scroll", function () { nav.classList.toggle("is-stuck", nav.getBoundingClientRect().top <= parseInt(getComputedStyle(document.documentElement).getPropertyValue("--header-h"), 10) + 1); }, { passive: true });
 
+  /* Pris-visning: spise her / takeaway (huskes, og meny.html#takeaway åpner rett i takeaway) */
+  var MODE_KEY = "fb-price-mode", modeBtns = $$("[data-mode]"), modeNote = $("[data-mode-note]"), TA = window.BISTRO_TAKEAWAY_INFO || {};
+  function setMode(m, save) {
+    document.documentElement.classList.toggle("mode-ta", m === "ta");
+    modeBtns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-mode") === m)); });
+    if (modeNote) modeNote.innerHTML = m === "ta"
+      ? "<strong>Takeaway:</strong> " + esc(TA.hours || "") + " · " + esc(TA.last || "") + ' · <a href="tel:+4767902209">Ring 67 90 22 09</a>'
+      : "Priser ved servering i restauranten.";
+    if (save) { try { localStorage.setItem(MODE_KEY, m); } catch (e) {} }
+  }
+  var startMode = "here";
+  try { startMode = localStorage.getItem(MODE_KEY) || "here"; } catch (e) {}
+  if (location.hash === "#takeaway") startMode = "ta";
+  setMode(startMode === "ta" ? "ta" : "here", false);
+  modeBtns.forEach(function (b) { b.addEventListener("click", function () { setMode(b.getAttribute("data-mode"), true); }); });
+
   /* Allergenfilter */
   var FILTERS = [14, 1, 6, 2, 7, 4, 5, 3, 10];
   var active = {};
@@ -131,7 +151,7 @@
       img.src = "assets/img/" + t.getAttribute("data-lb") + "-1600.webp";
       img.alt = t.getAttribute("data-name");
       $("[data-lb-name]", lb).textContent = t.getAttribute("data-name");
-      $("[data-lb-price]", lb).textContent = t.getAttribute("data-price");
+      $("[data-lb-price]", lb).textContent = t.getAttribute(document.documentElement.classList.contains("mode-ta") ? "data-price-ta" : "data-price");
       lb.showModal();
     });
     lb.addEventListener("click", function (e) { if (e.target === lb) lb.close(); });
