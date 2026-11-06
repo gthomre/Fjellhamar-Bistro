@@ -107,7 +107,11 @@
   </section>
 
   <nav class="cat-nav" aria-label="Menykategorier">
-    <div class="wrap"><div class="cat-scroller" data-cat-nav></div></div>
+    <div class="wrap"><div class="cat-track">
+      <button class="cat-arrow cat-arrow--prev" type="button" aria-hidden="true" tabindex="-1" data-cat-prev><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg></button>
+      <div class="cat-scroller" data-cat-nav></div>
+      <button class="cat-arrow cat-arrow--next" type="button" aria-hidden="true" tabindex="-1" data-cat-next><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg></button>
+    </div></div>
   </nav>
 
   <div class="wrap">
@@ -168,7 +172,7 @@
         <dt data-day="4">Torsdag:</dt><dd data-day="4">14:00 – 22:30</dd>
         <dt data-day="5">Fredag:</dt><dd data-day="5">14:00 – 23:30</dd>
         <dt data-day="6">Lørdag:</dt><dd data-day="6">14:00 – 23:30</dd>
-        <dt data-day="0">Søndag:</dt><dd data-day="0">13:00 – 22:00</dd>
+        <dt data-day="0">Søndag:</dt><dd data-day="0">14:00 – 22:00</dd>
       </dl>
       <address class="footer-contact" style="font-style:normal">
         <a href="https://www.google.com/maps/search/?api=1&amp;query=Fjellhamarveien+56+D,+1472+Fjellhamar" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>Fjellhamarveien 56 D, 1472 Fjellhamar</a>

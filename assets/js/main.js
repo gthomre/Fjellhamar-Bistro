@@ -3,7 +3,7 @@
   "use strict";
   document.documentElement.classList.remove("no-js");
 
-  var HOURS = { 0: ["13:00", "22:00"], 1: null, 2: ["14:00", "22:30"], 3: ["14:00", "22:30"], 4: ["14:00", "22:30"], 5: ["14:00", "23:30"], 6: ["14:00", "23:30"] };
+  var HOURS = { 0: ["14:00", "22:00"], 1: null, 2: ["14:00", "22:30"], 3: ["14:00", "22:30"], 4: ["14:00", "22:30"], 5: ["14:00", "23:30"], 6: ["14:00", "23:30"] };
   var DAYS = ["søndag", "mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"];
   var EMAIL = "helen.haiqiu@gmail.com";
 

@@ -43,7 +43,11 @@
   </section>
 
   <nav class="cat-nav" aria-label="Menykategorier">
-    <div class="wrap"><div class="cat-scroller" data-cat-nav></div></div>
+    <div class="wrap"><div class="cat-track">
+      <button class="cat-arrow cat-arrow--prev" type="button" aria-hidden="true" tabindex="-1" data-cat-prev><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg></button>
+      <div class="cat-scroller" data-cat-nav></div>
+      <button class="cat-arrow cat-arrow--next" type="button" aria-hidden="true" tabindex="-1" data-cat-next><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg></button>
+    </div></div>
   </nav>
 
   <div class="wrap">

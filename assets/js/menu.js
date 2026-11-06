@@ -58,6 +58,19 @@
   var cats = [{ id: "kombinasjonsmenyer", title: "Kombinasjonsmenyer" }].concat(MENU.map(function (c) { return { id: c.id, title: c.title }; }));
   catNav.innerHTML = cats.map(function (c) { return '<a class="cat-pill" href="#' + c.id + '">' + esc(c.title) + "</a>"; }).join("");
   var pills = $$(".cat-pill", catNav);
+  var track = catNav.parentNode;
+  function updArrows() {
+    var max = catNav.scrollWidth - catNav.clientWidth;
+    track.classList.toggle("can-prev", catNav.scrollLeft > 4);
+    track.classList.toggle("can-next", catNav.scrollLeft < max - 4);
+  }
+  catNav.addEventListener("scroll", function () { updArrows(); if (catNav.scrollLeft > 4) track.classList.add("was-scrolled"); }, { passive: true });
+  window.addEventListener("resize", updArrows);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(updArrows);
+  updArrows();
+  [["[data-cat-prev]", -1], ["[data-cat-next]", 1]].forEach(function (b) {
+    $(b[0]).addEventListener("click", function () { catNav.scrollBy({ left: b[1] * catNav.clientWidth * 0.7, behavior: "smooth" }); });
+  });
   var initial = true;
   function setActive(id) {
     pills.forEach(function (p) {
