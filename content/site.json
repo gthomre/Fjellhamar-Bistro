@@ -21,5 +21,12 @@
   "takeaway": {
     "hours": "Tirsdag–søndag 14:00–21:30",
     "last": "Siste bestilling 21:15"
+  },
+  "status": {
+    "closed": false,
+    "reason": "ferie",
+    "message": "",
+    "from": "",
+    "until": ""
   }
 }

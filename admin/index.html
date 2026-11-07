@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin – Fjellhamar Bistro</title>
+<link rel="icon" href="/assets/logo/favicon-64.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<header class="top">
+  <div class="top__brand">
+    <img src="/assets/logo/logo-128.webp" alt="" width="40" height="40">
+    <div><span class="script">Fjellhamar Bistro</span><strong>Administrasjon</strong></div>
+  </div>
+  <div class="top__right">
+    <span class="me" data-me></span>
+    <a class="btn btn--ghost btn--sm" href="/" target="_blank" rel="noopener">Se nettsiden ↗</a>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="nav" aria-label="Moduler" data-nav></nav>
+  <main class="main" id="main" data-main>
+    <p class="loading">Laster …</p>
+  </main>
+</div>
+
+<div class="savebar" data-savebar hidden>
+  <span>Du har endringer som ikke er lagret</span>
+  <div class="savebar__actions">
+    <button class="btn btn--ghost" type="button" data-discard>Forkast</button>
+    <button class="btn btn--primary" type="button" data-save>Lagre og publiser</button>
+  </div>
+</div>
+<div class="toast" data-toast role="status" aria-live="polite"></div>
+
+<!-- Moduler: én fil per funksjon. Ny funksjon = ny fil i modules/ + én linje her. -->
+<script type="module">
+  import { start } from "./app.js";
+  await Promise.all([
+    import("./modules/status.js"),
+    import("./modules/hours.js"),
+    import("./modules/contact.js"),
+    import("./modules/history.js"),
+  ]);
+  start();
+</script>
+</body>
+</html>

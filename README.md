@@ -1,7 +1,7 @@
 # Fjellhamar Bistro – nettside
 
 Statisk nettside for Fjellhamar Bistro (kinesisk, asiatisk og norsk mat), Fjellhamarveien 56 D, 1472 Fjellhamar.
-Ren HTML/CSS/JS – ingen avhengigheter eller byggverktøy utover et lite Python-skript.
+Ren HTML/CSS/JS + en liten Cloudflare Worker (`worker/`) som fyller inn kontaktinfo og åpningstider fra lagringen (KV). Bygges med `build.py` (krever Python og Node).
 
 ## Struktur
 
@@ -46,3 +46,20 @@ python -m http.server 8080
 python build.py
 npx wrangler pages deploy dist --project-name fjellhamar-bistro
 ```
+
+## Admin-panel (/admin)
+
+Kunden endrer åpningstider, kontaktinfo og «stengt/ferie» selv på `/admin`. Innlogging skjer med Cloudflare Access (engangskode på e-post).
+Endringer lagres i Cloudflare KV (`CONTENT`) – live og forhåndsvisninger har hvert sitt lagringsområde (se `wrangler.jsonc`).
+`content/site.json` er reserve/startdata hvis lagringen er tom eller utilgjengelig.
+
+```
+admin/index.html        Skall – lister modulene
+admin/app.js            Kjerne: lasting, lagring, «ulagrede endringer», meldinger
+admin/modules/*.js      Én fil per funksjon (status, hours, contact, history)
+worker/index.js         Ruter: sider, /admin, /api/admin
+worker/auth.js          Sjekker Cloudflare Access-innlogging
+worker/render.js        Fyller inn data i sidene (brukes av både bygg, Worker og admin)
+```
+
+**Ny funksjon i admin:** lag `admin/modules/<navn>.js` som kaller `register({...})` (se en eksisterende modul), og legg til én `import`-linje i `admin/index.html`.

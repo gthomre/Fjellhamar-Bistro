@@ -1,10 +1,27 @@
 {
-  // Cloudflare: publiser innholdet i dist/ (lages av build.py)
+  // Cloudflare: Worker (worker/index.js) + statiske filer i dist/ (lages av build.py)
   "name": "fjellhamar-bistro",
+  "main": "worker/index.js",
   "compatibility_date": "2026-10-01",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "binding": "ASSETS",
+    // Bare disse går via Worker-en: sider med innhold fra admin, og admin selv (krever innlogging).
+    // Bilder, CSS osv. serveres direkte.
+    "run_worker_first": ["/", "/index", "/index.html", "/meny", "/meny.html", "/assets/js/site-data.js", "/admin", "/admin/*", "/api/*"]
   },
-  // Forhåndsvisninger av andre brancher (f.eks. admin) – går aldri live
-  "previews": {}
+  // Sidemalene fra build/templates importeres som tekst
+  "rules": [{ "type": "Text", "globs": ["**/*.html"], "fallthrough": true }],
+
+  // ---- LIVE (main) ----
+  // Ekte innhold som kunden endrer i admin
+  "kv_namespaces": [{ "binding": "CONTENT", "id": "1c5b72ae71554106af8f177f1148e9a7" }],
+  // Innlogging (Cloudflare Access): fylles inn når Access er satt opp. Tomt = admin er stengt.
+  "vars": { "ACCESS_TEAM_DOMAIN": "", "ACCESS_AUD": "" },
+
+  // ---- FORHÅNDSVISNINGER (admin-branchen o.l.) – går aldri live, og bruker egne testdata ----
+  "previews": {
+    "kv_namespaces": [{ "binding": "CONTENT", "id": "2c88cd319fe0434ca8f049c4688c23fe" }],
+    "vars": { "ACCESS_TEAM_DOMAIN": "", "ACCESS_AUD": "" }
+  }
 }

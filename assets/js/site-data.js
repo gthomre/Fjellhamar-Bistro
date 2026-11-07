@@ -1,4 +1,4 @@
-/* Generert av build.py fra content/site.json – ikke rediger direkte */
+/* Generert fra content/site.json – ikke rediger direkte */
 window.BISTRO_SITE = {
   "contact": {
     "phone": "67 90 22 09",
@@ -10,6 +10,10 @@ window.BISTRO_SITE = {
   },
   "hours": {
     "week": {
+      "0": [
+        "14:00",
+        "22:00"
+      ],
       "1": null,
       "2": [
         "14:00",
@@ -30,10 +34,6 @@ window.BISTRO_SITE = {
       "6": [
         "14:00",
         "23:30"
-      ],
-      "0": [
-        "14:00",
-        "22:00"
       ]
     },
     "kitchen": "21:30"
@@ -41,5 +41,12 @@ window.BISTRO_SITE = {
   "takeaway": {
     "hours": "Tirsdag–søndag 14:00–21:30",
     "last": "Siste bestilling 21:15"
+  },
+  "status": {
+    "closed": false,
+    "reason": "ferie",
+    "message": "",
+    "from": "",
+    "until": ""
   }
 };

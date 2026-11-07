@@ -1,0 +1,124 @@
+/* Admin – Fjellhamar Bistro. Samme farger som nettsiden, men enkelt og lett å bruke på mobil. */
+:root {
+  --cream: #fcf7f1; --cream-2: #f6ece1; --cream-3: #efe0d0;
+  --red: #b5121b; --red-600: #a10f17; --red-deep: #7d0a10; --wine: #3f0b0e;
+  --ink: #2b1b1a; --muted: #6e5753; --line: rgba(125, 10, 16, 0.16);
+  --ok: #2f7a3a; --ok-bg: #e8f3ea; --warn: #8a5a00; --warn-bg: #fbf0d9;
+  --white: #fff;
+  --f-script: "Great Vibes", cursive;
+  --f-display: "Merriweather", Georgia, serif;
+  --f-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius: 14px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--cream); color: var(--ink); font: 16px/1.5 var(--f-ui); -webkit-font-smoothing: antialiased; padding-bottom: 96px; }
+h1, h2, h3 { font-family: var(--f-display); color: var(--wine); margin: 0; line-height: 1.2; }
+.script { font-family: var(--f-script); color: var(--red); font-size: 1.35rem; line-height: 1; }
+a { color: var(--red-deep); }
+
+.top { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; background: var(--white); border-bottom: 1px solid var(--line); }
+.top__brand { display: flex; align-items: center; gap: 10px; }
+.top__brand div { display: flex; flex-direction: column; }
+.top__brand strong { font-size: 0.9rem; color: var(--muted); font-weight: 600; }
+.top__right { display: flex; align-items: center; gap: 12px; }
+.me { color: var(--muted); font-size: 0.85rem; }
+@media (max-width: 640px) { .me { display: none; } }
+
+.layout { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 220px 1fr; gap: 28px; padding: 24px 16px; }
+.nav { display: flex; flex-direction: column; gap: 4px; position: sticky; top: 84px; align-self: start; }
+.nav__item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; text-decoration: none; color: var(--ink); font-weight: 500; }
+.nav__item:hover { background: var(--cream-2); }
+.nav__item[aria-current="page"] { background: var(--white); color: var(--red-deep); box-shadow: 0 1px 0 var(--line), 0 0 0 1px var(--line); }
+.nav__badge { margin-left: auto; background: var(--red); color: #fff; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; }
+.ico { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 760px) {
+  .layout { grid-template-columns: 1fr; gap: 16px; padding-top: 12px; }
+  .nav { position: static; flex-direction: row; overflow-x: auto; gap: 6px; margin: 0 -16px; padding: 0 16px 4px; scrollbar-width: none; }
+  .nav__item { flex: none; padding: 8px 12px; background: var(--white); box-shadow: 0 0 0 1px var(--line); }
+}
+
+.main__head { margin-bottom: 18px; }
+.main__head h1 { font-size: 1.6rem; }
+.intro { color: var(--muted); margin: 6px 0 0; max-width: 60ch; }
+.sub { font-size: 1.1rem; margin: 26px 0 10px; }
+.group { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: grid; gap: 16px; margin-bottom: 14px; transition: opacity .2s; }
+.group.is-off { opacity: 0.55; }
+.field { display: grid; gap: 6px; }
+.field label, .label { font-weight: 600; font-size: 0.95rem; }
+.field small, .muted { color: var(--muted); font-size: 0.85rem; }
+.opt { font-weight: 400; color: var(--muted); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+input, textarea, select { font: inherit; color: inherit; width: 100%; padding: 11px 12px; border: 1px solid rgba(43, 27, 26, 0.22); border-radius: 10px; background: var(--white); min-height: 46px; }
+textarea { resize: vertical; }
+input:focus-visible, textarea:focus-visible { outline: 3px solid rgba(181, 18, 27, 0.25); border-color: var(--red); }
+.tip { background: var(--cream-2); border-radius: 10px; padding: 12px 14px; font-size: 0.92rem; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 18px; border-radius: 99px; border: 0; font: 600 0.95rem var(--f-ui); cursor: pointer; text-decoration: none; }
+.btn--primary { background: linear-gradient(180deg, #c3161f, var(--red-600)); color: #fff; box-shadow: 0 8px 18px -8px rgba(181, 18, 27, .6); }
+.btn--primary:disabled { opacity: .6; cursor: wait; }
+.btn--ghost { background: var(--white); color: var(--red-deep); box-shadow: inset 0 0 0 1.5px var(--line); }
+.btn--sm { min-height: 36px; padding: 6px 14px; font-size: 0.88rem; }
+
+/* Bryter */
+.switch { position: relative; width: 50px; height: 30px; flex: none; border-radius: 99px; background: #cdbfb4; transition: background .2s; }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .2s; }
+input:checked + .switch { background: var(--red); }
+input:checked + .switch::after { transform: translateX(20px); }
+input:focus-visible + .switch { outline: 3px solid rgba(181, 18, 27, 0.3); outline-offset: 2px; }
+.switchcard input, .mini-switch input, .chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.switchcard { position: relative; display: flex; align-items: center; gap: 14px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 14px; cursor: pointer; }
+.switchcard span:last-child { display: grid; }
+.switchcard small { color: var(--muted); }
+
+.statusline { padding: 12px 14px; border-radius: 10px; font-weight: 600; margin: 0 0 14px; }
+.statusline--ok { background: var(--ok-bg); color: var(--ok); }
+.statusline--closed { background: #fbe4e4; color: var(--red-deep); }
+.statusline--plan { background: var(--warn-bg); color: var(--warn); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { position: relative; cursor: pointer; }
+.chip span { display: inline-block; padding: 8px 14px; border-radius: 99px; background: var(--cream-2); font-size: 0.92rem; }
+.chip input:checked + span { background: var(--red); color: #fff; }
+.chip input:focus-visible + span { outline: 3px solid rgba(181, 18, 27, 0.3); }
+
+/* Forhåndsvisning av stengt-meldingen */
+.preview { background: linear-gradient(135deg, #e9d7c6, #d9bfa8); border-radius: var(--radius); padding: 28px 16px; display: grid; place-items: center; }
+.preview__card { width: min(100%, 380px); background: var(--cream); border-radius: 22px; padding: 26px 22px; text-align: center; box-shadow: 0 20px 40px -18px rgba(63, 11, 14, .5); }
+.preview__card h3 { font-size: 1.3rem; margin: 6px 0 10px; }
+.preview__card p { color: var(--muted); margin: 0 0 12px; }
+.preview__reopen { background: var(--cream-2); border-radius: 10px; padding: 10px; color: var(--ink) !important; }
+.preview__reopen strong { color: var(--red-deep); }
+.preview__btn { display: block; background: var(--red); color: #fff; border-radius: 99px; padding: 10px; font-weight: 600; }
+
+/* Åpningstider */
+.dayrow { display: grid; grid-template-columns: 90px 64px 1fr; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.dayrow:last-child { border-bottom: 0; padding-bottom: 0; }
+.mini-switch { position: relative; cursor: pointer; display: flex; }
+.times { display: flex; align-items: center; gap: 8px; }
+.times input { max-width: 130px; }
+.closedtxt { display: none; color: var(--muted); font-style: italic; }
+.dayrow.is-closed .times { display: none; }
+.dayrow.is-closed .closedtxt { display: block; }
+@media (max-width: 420px) { .dayrow { grid-template-columns: 1fr auto; } .times, .closedtxt { grid-column: 1 / -1; } }
+
+/* Historikk */
+.history { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.history li { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.history li div { display: grid; }
+.history small { color: var(--muted); }
+.current { margin: 0; }
+
+/* Lagre-linje og meldinger */
+.savebar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: var(--wine); color: #fff; box-shadow: 0 -10px 30px -10px rgba(0,0,0,.35); }
+.savebar[hidden] { display: none; }
+.savebar__actions { display: flex; gap: 8px; }
+.savebar .btn--ghost { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.45); }
+@media (max-width: 520px) { .savebar > span { width: 100%; font-size: .9rem; } .savebar__actions { width: 100%; } .savebar__actions .btn { flex: 1; } }
+.toast { position: fixed; left: 50%; bottom: 96px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 40; max-width: calc(100% - 32px); padding: 12px 18px; border-radius: 12px; color: #fff; font-weight: 600; transition: all .25s; }
+.toast.is-show { opacity: 1; transform: translate(-50%, 0); }
+.toast--ok { background: var(--ok); }
+.toast--err { background: var(--red-deep); }
+.loading, .error { color: var(--muted); }
+.error { color: var(--red-deep); font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
