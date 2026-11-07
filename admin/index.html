@@ -18,13 +18,23 @@
     <div><span class="script">Fjellhamar Bistro</span><strong>Administrasjon</strong></div>
   </div>
   <div class="top__right">
-    <span class="me" data-me></span>
-    <a class="btn btn--ghost btn--sm" href="/" target="_blank" rel="noopener">Se nettsiden ↗</a>
+    <details class="user">
+      <summary aria-label="Innlogget bruker">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+        <span class="user__email" data-me></span>
+      </summary>
+      <div class="user__menu">
+        <small>Innlogget som</small>
+        <strong data-me></strong>
+        <a class="btn btn--ghost btn--sm" href="/cdn-cgi/access/logout">Logg ut</a>
+      </div>
+    </details>
+    <a class="btn btn--ghost btn--sm" href="/" target="_blank" rel="noopener"><span class="hide-sm">Se </span>nettsiden ↗</a>
   </div>
 </header>
 
 <div class="layout">
-  <nav class="nav" aria-label="Moduler" data-nav></nav>
+  <div class="nav-wrap"><nav class="nav" aria-label="Moduler" data-nav></nav></div>
   <main class="main" id="main" data-main>
     <p class="loading">Laster …</p>
   </main>

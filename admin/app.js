@@ -32,12 +32,48 @@ async function api(path, opts = {}) {
 
 function updateSavebar() { $("[data-savebar]").hidden = !isDirty(); }
 
+/**
+ * Gjør en rad som kan scrolles sideveis tydelig: tonet kant og piler når det finnes flere valg.
+ * Returnerer innpakningen (legg den inn i siden i stedet for raden selv).
+ */
+export function scroller(row) {
+  const wrap = document.createElement("div");
+  wrap.className = "scroller";
+  const btn = (dir, label, path) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "scroller__btn scroller__btn--" + dir; b.setAttribute("aria-label", label); b.tabIndex = -1;
+    b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + path + '"/></svg>';
+    b.addEventListener("click", () => row.scrollBy({ left: (dir === "prev" ? -1 : 1) * row.clientWidth * 0.7, behavior: "smooth" }));
+    return b;
+  };
+  const update = () => {
+    const max = row.scrollWidth - row.clientWidth;
+    wrap.classList.toggle("can-prev", row.scrollLeft > 4);
+    wrap.classList.toggle("can-next", row.scrollLeft < max - 4);
+  };
+  wrap.append(btn("prev", "Vis forrige", "M15 5l-7 7 7 7"), row, btn("next", "Vis flere", "M9 5l7 7-7 7"));
+  row.addEventListener("scroll", update, { passive: true });
+  new ResizeObserver(update).observe(row);
+  new MutationObserver(update).observe(row, { childList: true });
+  requestAnimationFrame(update);
+  return wrap;
+}
+
+/** Scroller valgt element inn i synsfeltet i en sideveis rad (uten å flytte resten av siden). */
+export function revealInRow(row, el) {
+  if (!el || row.scrollWidth <= row.clientWidth) return;
+  const r = el.getBoundingClientRect(), w = row.getBoundingClientRect();
+  if (r.left < w.left + 40 || r.right > w.right - 40) row.scrollTo({ left: row.scrollLeft + r.left - w.left - 48, behavior: "smooth" });
+}
+
 /** Moduler kaller ctx.change() etter hver endring i utkastet. */
 const ctx = {
   state,
   change() { updateSavebar(); drawNav(); },
   toast,
   api,
+  scroller,
+  revealInRow,
   async reload() { await load(); render(); },
   /** Små byggeklosser for skjema */
   el(tag, attrs = {}, ...kids) {
@@ -67,6 +103,7 @@ function drawNav() {
     if (m.badge) { const b = m.badge(state.draft); if (b) a.append(ctx.el("span", { class: "nav__badge" }, b)); }
     return a;
   }));
+  revealInRow(nav, nav.querySelector('[aria-current="page"]'));
 }
 
 function render() {
@@ -88,7 +125,7 @@ async function load() {
   const data = await api("/content");
   state.saved = data.site; state.draft = clone(data.site);
   state.defaults = data.defaults; state.history = data.history; state.me = data.me; state.source = data.source;
-  $("[data-me]").textContent = data.me;
+  document.querySelectorAll("[data-me]").forEach((e) => (e.textContent = data.me));
 }
 
 async function save() {
@@ -110,6 +147,10 @@ async function save() {
 }
 
 export async function start() {
+  const nav = $("[data-nav]");
+  const navParent = nav.parentNode;
+  navParent.append(scroller(nav));
+  document.addEventListener("click", (e) => { const u = $("details.user"); if (u && u.open && !u.contains(e.target)) u.open = false; });
   $("[data-save]").addEventListener("click", save);
   $("[data-discard]").addEventListener("click", () => { state.draft = clone(state.saved); render(); toast("Endringene er forkastet."); });
   window.addEventListener("hashchange", () => { current = location.hash.slice(1); render(); window.scrollTo(0, 0); });

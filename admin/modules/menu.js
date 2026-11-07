@@ -45,11 +45,12 @@ register({
       oninput: (e) => { query = e.target.value; drawList(); } });
     const pills = h("div", { class: "pills", role: "tablist" });
     const list = h("div", { class: "menu-edit" });
-    el.append(h("div", { class: "menu-tools" }, search), pills, list);
+    el.append(h("div", { class: "menu-tools" }, search), ctx.scroller(pills), list);
 
     function drawPills() {
       pills.replaceChildren(...[...menu.categories.map((c) => [c.id, c.title]), [COMBO_TAB, "Kombinasjonsmenyer"]].map(([id, title]) =>
         h("button", { type: "button", class: "pill", role: "tab", "aria-selected": String(id === tab && !query), onclick: () => { tab = id; query = ""; search.value = ""; openItem = null; drawPills(); drawList(); } }, title)));
+      requestAnimationFrame(() => ctx.revealInRow(pills, pills.querySelector('[aria-selected="true"]')));
     }
 
     function summary(it) {
