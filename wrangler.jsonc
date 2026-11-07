@@ -4,5 +4,7 @@
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./dist"
-  }
+  },
+  // Forhåndsvisninger av andre brancher (f.eks. admin) – går aldri live
+  "previews": {}
 }
