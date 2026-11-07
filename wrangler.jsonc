@@ -22,6 +22,10 @@
   // ---- FORHÅNDSVISNINGER (admin-branchen o.l.) – går aldri live, og bruker egne testdata ----
   "previews": {
     "kv_namespaces": [{ "binding": "CONTENT", "id": "2c88cd319fe0434ca8f049c4688c23fe" }],
-    "vars": { "ACCESS_TEAM_DOMAIN": "", "ACCESS_AUD": "" }
+    // Innlogging for forhåndsvisninger (Cloudflare Access: «Previews only»)
+    "vars": {
+      "ACCESS_TEAM_DOMAIN": "winter-surf-d9ec.cloudflareaccess.com",
+      "ACCESS_AUD": "00f45ea88eee3340a903fdfe1696ca9ee930e42e390a862a7ac3715b0e6d569a"
+    }
   }
 }
