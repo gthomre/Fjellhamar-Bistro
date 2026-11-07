@@ -35,7 +35,7 @@ function updateSavebar() { $("[data-savebar]").hidden = !isDirty(); }
 /** Moduler kaller ctx.change() etter hver endring i utkastet. */
 const ctx = {
   state,
-  change() { updateSavebar(); },
+  change() { updateSavebar(); drawNav(); },
   toast,
   api,
   async reload() { await load(); render(); },
@@ -60,15 +60,19 @@ function icon(path) {
   s.innerHTML = path; return s;
 }
 
-function render() {
-  modules.sort((a, b) => (a.order || 0) - (b.order || 0));
-  if (!modules.find((m) => m.id === current)) current = modules[0].id;
+function drawNav() {
   const nav = $("[data-nav]");
   nav.replaceChildren(...modules.map((m) => {
     const a = ctx.el("a", { href: "#" + m.id, class: "nav__item", "aria-current": m.id === current ? "page" : false }, icon(m.icon), ctx.el("span", {}, m.title));
     if (m.badge) { const b = m.badge(state.draft); if (b) a.append(ctx.el("span", { class: "nav__badge" }, b)); }
     return a;
   }));
+}
+
+function render() {
+  modules.sort((a, b) => (a.order || 0) - (b.order || 0));
+  if (!modules.find((m) => m.id === current)) current = modules[0].id;
+  drawNav();
   const mod = modules.find((m) => m.id === current);
   const main = $("[data-main]");
   main.replaceChildren();

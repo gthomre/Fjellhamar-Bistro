@@ -8,7 +8,7 @@
     "binding": "ASSETS",
     // Bare disse går via Worker-en: sider med innhold fra admin, og admin selv (krever innlogging).
     // Bilder, CSS osv. serveres direkte.
-    "run_worker_first": ["/", "/index", "/index.html", "/meny", "/meny.html", "/assets/js/site-data.js", "/admin", "/admin/*", "/api/*"]
+    "run_worker_first": ["/", "/index", "/index.html", "/meny", "/meny.html", "/assets/js/site-data.js", "/assets/js/menu-data.js", "/admin", "/admin/*", "/api/*"]
   },
   // Sidemalene fra build/templates importeres som tekst
   "rules": [{ "type": "Text", "globs": ["**/*.html"], "fallthrough": true }],

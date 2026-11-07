@@ -5,12 +5,17 @@
    • Alt annet (bilder, CSS, JS) serveres direkte som statiske filer. */
 import indexTpl from "../build/templates/index.html";
 import menyTpl from "../build/templates/meny.html";
-import defaults from "../content/site.json";
+import siteDefaults from "../content/site.json";
+import menuDefaults from "../content/menu.json";
 import { renderPage, siteScript, isValidSite } from "./render.js";
+import { menuScript, isValidMenu } from "./menu.js";
 import { authenticate } from "./auth.js";
 
 const PAGES = { "/": indexTpl, "/index": indexTpl, "/index.html": indexTpl, "/meny": menyTpl, "/meny.html": menyTpl };
 const HISTORY_MAX = 20;
+/** Reserve: innholdet fra bygget (content/site.json + content/menu.json) */
+const defaults = { ...siteDefaults, menu: menuDefaults };
+const withMenu = (s, fallback = menuDefaults) => (isValidMenu(s.menu) ? s : { ...s, menu: fallback });
 const PAGE_HEADERS = { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=0, must-revalidate" };
 
 /** Dagens dato i Norge, YYYY-MM-DD */
@@ -20,7 +25,7 @@ async function loadSite(env, fresh = false) {
   if (!env.CONTENT) return { site: defaults, source: "default" };
   try {
     const s = await env.CONTENT.get("site", fresh ? { type: "json" } : { type: "json", cacheTtl: 60 });
-    return isValidSite(s) ? { site: s, source: "kv" } : { site: defaults, source: "default" };
+    return isValidSite(s) ? { site: withMenu(s), source: "kv" } : { site: defaults, source: "default" };
   } catch (e) {
     console.error("KV-feil, bruker reservedata:", e);
     return { site: defaults, source: "default" };
@@ -67,6 +72,7 @@ async function handleApi(request, env, url, user) {
   if (request.method === "PUT" && path === "/content") {
     const site = data.site;
     if (!isValidSite(site)) return json({ error: "Noe i skjemaet har feil format. Sjekk klokkeslett (TT:MM) og datoer." }, 400);
+    if (!isValidMenu(site.menu)) return json({ error: "Noe i menyen har feil format. Sjekk at alle retter har navn og pris (hele kroner)." }, 400);
     const saved = await saveSite(env, site, user.email, String(data.note || "").slice(0, 120));
     return json({ ok: true, site: saved });
   }
@@ -75,7 +81,9 @@ async function handleApi(request, env, url, user) {
     const history = await loadHistory(env);
     const item = history[Number(data.i)];
     if (!item || !isValidSite(item.site)) return json({ error: "Fant ikke versjonen" }, 404);
-    const { _meta, ...site } = item.site;
+    const { _meta, ...old } = item.site;
+    const { site: current } = await loadSite(env, true);
+    const site = withMenu(old, current.menu); // eldre versjoner uten meny beholder dagens meny
     const saved = await saveSite(env, site, user.email, "Gjenopprettet versjon fra " + item.at.slice(0, 16).replace("T", " "));
     return json({ ok: true, site: saved });
   }
@@ -114,10 +122,10 @@ export default {
       try { html = renderPage(tpl, site, osloToday()); } catch (e) { html = renderPage(tpl, defaults); }
       return new Response(request.method === "HEAD" ? null : html, { headers: PAGE_HEADERS });
     }
-    if (get && p === "/assets/js/site-data.js") {
+    if (get && (p === "/assets/js/site-data.js" || p === "/assets/js/menu-data.js")) {
       const { site } = await loadSite(env);
-      const { _meta, ...pub } = site;
-      return new Response(siteScript(pub), { headers: { "content-type": "application/javascript; charset=utf-8", "cache-control": "public, max-age=0, must-revalidate" } });
+      const { _meta, menu, ...pub } = site;
+      return new Response(p.endsWith("menu-data.js") ? menuScript(menu) : siteScript(pub), { headers: { "content-type": "application/javascript; charset=utf-8", "cache-control": "public, max-age=0, must-revalidate" } });
     }
     return env.ASSETS.fetch(request);
   },

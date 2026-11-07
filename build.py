@@ -36,4 +36,5 @@ shutil.copytree(root / "assets", dist / "assets", ignore=shutil.ignore_patterns(
 # Admin-panelet (beskyttet av innlogging i Worker-en) + felles kode for visning
 shutil.copytree(root / "admin", dist / "admin")
 shutil.copy2(root / "worker" / "render.js", dist / "admin" / "render.js")
+shutil.copy2(root / "worker" / "menu.js", dist / "admin" / "menu.js")
 print("dist/ klar for publisering")
