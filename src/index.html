@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fjellhamar Bistro – Kinesisk, asiatisk og norsk mat i Fjellhamar</title>
-<meta name="description" content="Fjellhamar Bistro serverer kinesiske og asiatiske klassikere, dim sum og norske favoritter i Fjellhamarveien 56 D. Bestill bord, selskap og catering – ring 67 90 22 09.">
+<meta name="description" content="Fjellhamar Bistro serverer kinesiske og asiatiske klassikere, dim sum og norske favoritter i {{STREET}}. Bestill bord, selskap og catering – ring {{PHONE}}.">
 <meta name="theme-color" content="#b5121b">
 <meta property="og:title" content="Fjellhamar Bistro – Smaken av Asia. Midt i Fjellhamar.">
 <meta property="og:description" content="Kinesisk, asiatisk og norsk mat. Hyggelig bistro for hele nabolaget.">
@@ -23,13 +23,11 @@
   "@type": "Restaurant",
   "name": "Fjellhamar Bistro",
   "servesCuisine": ["Kinesisk", "Asiatisk", "Norsk"],
-  "telephone": "+47 67 90 22 09",
-  "email": "helen.haiqiu@gmail.com",
-  "address": { "@type": "PostalAddress", "streetAddress": "Fjellhamarveien 56 D", "postalCode": "1472", "addressLocality": "Fjellhamar", "addressCountry": "NO" },
+  "telephone": "{{PHONE_LD}}",
+  "email": "{{EMAIL}}",
+  "address": { "@type": "PostalAddress", "streetAddress": "{{STREET}}", "postalCode": "{{POSTCODE}}", "addressLocality": "{{CITY}}", "addressCountry": "NO" },
   "openingHoursSpecification": [
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday"], "opens": "14:00", "closes": "22:30" },
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday","Saturday"], "opens": "14:00", "closes": "23:30" },
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "14:00", "closes": "22:00" }
+{{HOURS_LD}}
   ],
   "menu": "meny.html",
   "acceptsReservations": true,
@@ -207,8 +205,8 @@
           <li><svg class="icon"><use href="#i-truck"/></svg>Catering</li>
         </ul>
         <div class="actions">
-          <a class="btn btn--light" href="tel:+4767902209"><svg class="icon"><use href="#i-phone"/></svg>Ring 67 90 22 09</a>
-          <a class="btn btn--outline-light" href="mailto:helen.haiqiu@gmail.com?subject=Foresp%C3%B8rsel%20om%20selskap%2Fcatering"><svg class="icon"><use href="#i-mail"/></svg>Send forespørsel</a>
+          <a class="btn btn--light" href="tel:{{TEL}}"><svg class="icon"><use href="#i-phone"/></svg>Ring {{PHONE}}</a>
+          <a class="btn btn--outline-light" href="mailto:{{EMAIL}}?subject=Foresp%C3%B8rsel%20om%20selskap%2Fcatering"><svg class="icon"><use href="#i-mail"/></svg>Send forespørsel</a>
         </div>
       </div>
       <div class="events-photos reveal reveal-d1">
@@ -224,7 +222,7 @@
       <div class="booking-card reveal" id="bestill">
         <span class="eyebrow eyebrow--left">Bestill bord</span>
         <h2 id="bestill-title">Vi holder av et bord til deg</h2>
-        <p>Fyll inn skjemaet, så sender vi deg en bekreftelse. Haster det? Ring oss på <a href="tel:+4767902209">67 90 22 09</a>.</p>
+        <p>Fyll inn skjemaet, så sender vi deg en bekreftelse. Haster det? Ring oss på <a href="tel:{{TEL}}">{{PHONE}}</a>.</p>
         <form class="form-grid" data-booking novalidate>
           <div class="field"><label for="b-name">Navn</label><input id="b-name" name="navn" autocomplete="name" required></div>
           <div class="field"><label for="b-phone">Telefon</label><input id="b-phone" name="telefon" type="tel" autocomplete="tel" inputmode="tel" required></div>
@@ -242,19 +240,19 @@
           <p class="form-note" data-form-note aria-live="polite"></p>
           <div class="form-actions">
             <button class="btn btn--primary" type="submit"><svg class="icon"><use href="#i-cal"/></svg>Send bestilling</button>
-            <a class="btn btn--ghost" href="tel:+4767902209"><svg class="icon"><use href="#i-phone"/></svg>Ring i stedet</a>
+            <a class="btn btn--ghost" href="tel:{{TEL}}"><svg class="icon"><use href="#i-phone"/></svg>Ring i stedet</a>
           </div>
         </form>
       </div>
 
       <div class="visit-card reveal reveal-d1">
         <div class="map">
-          <iframe title="Kart: Fjellhamarveien 56 D, 1472 Fjellhamar" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Fjellhamarveien+56+D,+1472+Fjellhamar&amp;output=embed"></iframe>
+          <iframe title="Kart: {{ADDRESS}}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q={{ADDRESS_Q}}&amp;output=embed"></iframe>
         </div>
         <div class="visit-info">
-          <a href="https://www.google.com/maps/search/?api=1&amp;query=Fjellhamarveien+56+D,+1472+Fjellhamar" target="_blank" rel="noopener"><svg class="icon"><use href="#i-pin"/></svg>Fjellhamarveien 56 D, 1472 Fjellhamar</a>
-          <a href="tel:+4767902209"><svg class="icon"><use href="#i-phone"/></svg>67 90 22 09</a>
-          <a href="mailto:helen.haiqiu@gmail.com"><svg class="icon"><use href="#i-mail"/></svg>helen.haiqiu@gmail.com</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query={{ADDRESS_Q}}" target="_blank" rel="noopener"><svg class="icon"><use href="#i-pin"/></svg>{{ADDRESS}}</a>
+          <a href="tel:{{TEL}}"><svg class="icon"><use href="#i-phone"/></svg>{{PHONE}}</a>
+          <a href="mailto:{{EMAIL}}"><svg class="icon"><use href="#i-mail"/></svg>{{EMAIL}}</a>
         </div>
       </div>
     </div>
@@ -264,6 +262,7 @@
 
 {{FOOTER}}
 
+<script src="assets/js/site-data.js"></script>
 <script src="assets/js/menu-data.js"></script>
 <script src="assets/js/main.js"></script>
 </body>

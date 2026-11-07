@@ -11,6 +11,8 @@ src/                    Kildeversjon av sidene
 partials/               Felles toppmeny, bunn og ikoner (header, footer, sprite)
 build.py                Setter sammen src/ + partials/ -> index.html og meny.html
 assets/css/style.css    All styling
+content/site.json       Kontaktinfo og åpningstider (kilde for alt)
+assets/js/site-data.js  Generert fra content/site.json – ikke rediger
 assets/js/menu-data.js  Hele menyen: retter, priser, allergener
 assets/js/main.js       Meny på mobil, «åpent nå», bordbestilling
 assets/js/menu.js       Menysiden: kategorier, allergenfilter, bildevisning
@@ -21,7 +23,7 @@ assets/logo/            Logo og favicon
 ## Vanlige endringer
 
 - **Priser og retter:** rediger `assets/js/menu-data.js` – oppdaterer både forsiden og menysiden.
-- **Åpningstider:** `partials/footer.html` (visning) og `HOURS` øverst i `assets/js/main.js` (åpent nå-logikk og bestillingstider).
+- **Åpningstider, kjøkken, takeaway-tider, telefon, e-post og adresse:** `content/site.json` – ett sted, oppdaterer hele siden (bunn, toppmeny, «åpent nå», bordbestilling, Google-data). Kjør `python build.py` etterpå.
 - **Tekst på sidene:** rediger `src/index.html` eller `src/meny.html`, og kjør deretter:
 
 ```powershell

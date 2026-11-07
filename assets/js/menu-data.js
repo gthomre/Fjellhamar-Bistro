@@ -1,8 +1,7 @@
 /* Fjellhamar Bistro – menydata (kilde: «Meny 18.10.2026.docx», riktig versjon)
    Endre priser/retter her, så oppdateres både forsiden og menysiden. */
 /* Takeaway: `t` på en rett = takeaway-pris. Mangler `t`, vises «Kun i restauranten» i takeaway-visning.
-   Kilde: «Takeaway 27.10.2026». */
-window.BISTRO_TAKEAWAY_INFO = { hours: "Tirsdag–søndag 14:00–21:30", last: "Siste bestilling 21:15" };
+   Kilde: «Takeaway 27.10.2026». Takeaway-tider ligger i content/site.json. */
 
 /* Merker på retter: hot: true = chili-ikon (sterk), new: true = «Nyhet»-merke */
 window.BISTRO_BADGES = function (it) {

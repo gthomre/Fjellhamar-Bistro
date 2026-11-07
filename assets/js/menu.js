@@ -98,12 +98,12 @@
   window.addEventListener("scroll", function () { nav.classList.toggle("is-stuck", nav.getBoundingClientRect().top <= parseInt(getComputedStyle(document.documentElement).getPropertyValue("--header-h"), 10) + 1); }, { passive: true });
 
   /* Pris-visning: spise her / takeaway (huskes, og meny.html#takeaway åpner rett i takeaway) */
-  var MODE_KEY = "fb-price-mode", modeBtns = $$("[data-mode]"), modeNote = $("[data-mode-note]"), TA = window.BISTRO_TAKEAWAY_INFO || {};
+  var MODE_KEY = "fb-price-mode", modeBtns = $$("[data-mode]"), modeNote = $("[data-mode-note]"), SITE = window.BISTRO_SITE || {}, TA = SITE.takeaway || {}, PH = SITE.contact || {};
   function setMode(m, save) {
     document.documentElement.classList.toggle("mode-ta", m === "ta");
     modeBtns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-mode") === m)); });
     if (modeNote) modeNote.innerHTML = m === "ta"
-      ? "<strong>Takeaway:</strong> " + esc(TA.hours || "") + " · " + esc(TA.last || "") + ' · <a href="tel:+4767902209">Ring 67 90 22 09</a>'
+      ? "<strong>Takeaway:</strong> " + esc(TA.hours || "") + " · " + esc(TA.last || "") + ' · <a href="tel:' + esc(PH.tel || "") + '">Ring ' + esc(PH.phone || "") + "</a>"
       : "Priser ved servering i restauranten.";
     if (save) { try { localStorage.setItem(MODE_KEY, m); } catch (e) {} }
   }

@@ -3,10 +3,12 @@
   "use strict";
   document.documentElement.classList.remove("no-js");
 
-  var HOURS = { 0: ["14:00", "22:00"], 1: null, 2: ["14:00", "22:30"], 3: ["14:00", "22:30"], 4: ["14:00", "22:30"], 5: ["14:00", "23:30"], 6: ["14:00", "23:30"] };
-  var KITCHEN = "21:30"; /* kjøkkenet stenger (alle åpne dager) */
+  /* Åpningstider og kontaktinfo kommer fra content/site.json (via assets/js/site-data.js) */
+  var SITE = window.BISTRO_SITE || { hours: { week: {} }, contact: {} };
+  var HOURS = SITE.hours.week;
+  var KITCHEN = SITE.hours.kitchen; /* kjøkkenet stenger (alle åpne dager) */
   var DAYS = ["søndag", "mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"];
-  var EMAIL = "helen.haiqiu@gmail.com";
+  var EMAIL = SITE.contact.email;
 
   function $(s, c) { return (c || document).querySelector(s); }
   function $$(s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); }
@@ -121,7 +123,8 @@
       var d = new Date(date.value + "T12:00:00").getDay(), h = HOURS[d];
       if (!h) {
         time.innerHTML = '<option value="">Stengt denne dagen</option>';
-        note.textContent = "Vi holder stengt på mandager – velg gjerne en annen dag."; note.classList.add("warn"); return;
+        var shut = [1, 2, 3, 4, 5, 6, 0].filter(function (x) { return !HOURS[x]; }).map(function (x) { return DAYS[x] + "er"; });
+        note.textContent = "Vi holder stengt på " + (shut.length > 1 ? shut.slice(0, -1).join(", ") + " og " + shut[shut.length - 1] : shut[0]) + " – velg gjerne en annen dag."; note.classList.add("warn"); return;
       }
       var opts = ['<option value="">Velg tid</option>'];
       var last = Math.min(toMin(h[1]) - 90, toMin(KITCHEN) - 30); /* siste bord: senest 30 min før kjøkkenet stenger */
