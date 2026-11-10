@@ -12,11 +12,10 @@
 <meta property="og:locale" content="nb_NO">
 <link rel="icon" href="assets/logo/favicon-64.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Merriweather:wght@700;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/hero-dishes-800.webp" imagesrcset="assets/img/hero-dishes-800.webp 800w, assets/img/hero-dishes-1200.webp 1200w, assets/img/hero-dishes-1600.webp 1600w" imagesizes="(max-width: 900px) 100vw, 60vw" fetchpriority="high">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/great-vibes-400.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/merriweather-900.woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
-<link rel="preload" as="image" href="assets/img/hero-dishes-1600.webp">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -115,13 +114,13 @@
   <section class="hero" aria-labelledby="hero-title">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <span class="eyebrow reveal">Kinesisk, asiatisk og norsk mat</span>
+        <span class="eyebrow hero-in">Kinesisk, asiatisk og norsk mat</span>
         <h1 class="hero-title" id="hero-title">
-          <span class="script reveal reveal-d1">Smaken av Asia.</span>
-          <span class="solid reveal reveal-d2">Midt i Fjellhamar.</span>
+          <span class="script hero-in hero-in-d1">Smaken av Asia.</span>
+          <span class="solid hero-in hero-in-d2">Midt i Fjellhamar.</span>
         </h1>
-        <p class="hero-lead reveal reveal-d2">Velsmakende retter, norske klassikere og en hyggelig bistro med bar for hele nabolaget. Alle rettigheter.</p>
-        <div class="hero-cta reveal reveal-d3">
+        <p class="hero-lead hero-in hero-in-d2">Velsmakende retter, norske klassikere og en hyggelig bistro med bar for hele nabolaget. Alle rettigheter.</p>
+        <div class="hero-cta hero-in hero-in-d3">
           <a class="btn btn--primary" href="meny.html"><svg class="icon"><use href="#i-utensils"/></svg>Se menyen</a>
           <a class="btn btn--ghost" href="#bestill"><svg class="icon"><use href="#i-cal"/></svg>Bestill bord</a>
         </div>
@@ -129,7 +128,7 @@
 
       <div class="hero-media">
         <div class="shape">
-          <img src="assets/img/hero-dishes-1600.webp" srcset="assets/img/hero-dishes-800.webp 800w, assets/img/hero-dishes-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 60vw" alt="Et bord dekket med retter fra Fjellhamar Bistro: dim sum, vårruller, wok, stekt ris og nudler" width="1600" height="900" fetchpriority="high">
+          <img src="assets/img/hero-dishes-1200.webp" srcset="assets/img/hero-dishes-800.webp 800w, assets/img/hero-dishes-1200.webp 1200w, assets/img/hero-dishes-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 60vw" alt="Et bord dekket med retter fra Fjellhamar Bistro: dim sum, vårruller, wok, stekt ris og nudler" width="1600" height="900" fetchpriority="high">
         </div>
         <svg class="swoosh" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <path d="M40 3.2C27 4.4 17 6.6 11.4 10.6 4.6 22 0.8 40 1.6 60" fill="none" stroke="#b5121b" stroke-width="5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>

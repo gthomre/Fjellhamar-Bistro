@@ -25,7 +25,7 @@
     // Innlogging for forhåndsvisninger (Cloudflare Access: «Previews only»)
     "vars": {
       "ACCESS_TEAM_DOMAIN": "winter-surf-d9ec.cloudflareaccess.com",
-      "ACCESS_AUD": "00f45ea88eee3340a903fdfe1696ca9ee930e42e390a862a7ac3715b0e6d569a"
+         "vars": { "ACCESS_TEAM_DOMAIN": "winter-surf-d9ec.cloudflareaccess.com", "ACCESS_AUD": "f2a3271b6721ed03ee3b5019916c21200e5057a3cd98a5f8e3556dd95b10d7e6" },
     }
   }
 }

@@ -1,0 +1,2 @@
+Selvhostede fonter (fra Google Fonts / Fontsource), redusert til latinske tegn inkl. æøå.
+Great Vibes, Merriweather og Source Serif 4 er lisensiert under SIL Open Font License 1.1 (https://openfontlicense.org).
