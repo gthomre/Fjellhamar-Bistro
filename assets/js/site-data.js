@@ -2,7 +2,7 @@
 window.BISTRO_SITE = {
   "contact": {
     "phone": "67 90 22 09",
-    "email": "helen.haiqiu@gmail.com",
+    "email": "helene@fjellhamarbistro.no",
     "street": "Fjellhamarveien 56 D",
     "postcode": "1472",
     "city": "Fjellhamar",
