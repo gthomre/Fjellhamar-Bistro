@@ -17,7 +17,9 @@
   // Ekte innhold som kunden endrer i admin
   "kv_namespaces": [{ "binding": "CONTENT", "id": "1c5b72ae71554106af8f177f1148e9a7" }],
   // Innlogging (Cloudflare Access): fylles inn når Access er satt opp. Tomt = admin er stengt.
-  "vars": { "ACCESS_TEAM_DOMAIN": "", "ACCESS_AUD": "" },
+  // E-post (bordbestilling): MAIL_FROM = avsender på et domene verifisert hos Resend.
+  // API-nøkkelen legges inn som hemmelighet: npx wrangler secret put RESEND_API_KEY
+  "vars": { "ACCESS_TEAM_DOMAIN": "", "ACCESS_AUD": "", "MAIL_FROM": "Fjellhamar Bistro <bestilling@fjellhamarbistro.no>" },
 
   // ---- FORHÅNDSVISNINGER (admin-branchen o.l.) – går aldri live, og bruker egne testdata ----
   "previews": {
@@ -25,7 +27,8 @@
     // Innlogging for forhåndsvisninger (Cloudflare Access: «Previews only»)
     "vars": {
       "ACCESS_TEAM_DOMAIN": "winter-surf-d9ec.cloudflareaccess.com",
-         "vars": { "ACCESS_TEAM_DOMAIN": "winter-surf-d9ec.cloudflareaccess.com", "ACCESS_AUD": "f2a3271b6721ed03ee3b5019916c21200e5057a3cd98a5f8e3556dd95b10d7e6" },
+      "ACCESS_AUD": "f2a3271b6721ed03ee3b5019916c21200e5057a3cd98a5f8e3556dd95b10d7e6",
+      "MAIL_FROM": "Fjellhamar Bistro <bestilling@fjellhamarbistro.no>"
     }
   }
 }

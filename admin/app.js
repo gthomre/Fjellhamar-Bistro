@@ -6,7 +6,8 @@ const $ = (s, c = document) => c.querySelector(s);
 
 /**
  * Registrer en modul.
- * { id, title, icon (svg-sti), order, render(el, ctx), validate?(draft) -> feiltekst | "" }
+ * { id, title, icon (svg-sti), order, render(el, ctx), validate?(draft) -> feiltekst | "",
+ *   badge?(draft) -> tekst, init?(ctx) – kjøres én gang etter innlasting (f.eks. hente egne data) }
  */
 export function register(mod) { modules.push(mod); }
 
@@ -70,6 +71,10 @@ export function revealInRow(row, el) {
 const ctx = {
   state,
   change() { updateSavebar(); drawNav(); },
+  /** Tegner menyen på nytt (f.eks. når et merke/teller endres) */
+  redrawNav() { drawNav(); },
+  /** Er denne modulen den som vises nå? */
+  isCurrent(id) { return current === id; },
   toast,
   api,
   scroller,
@@ -155,6 +160,10 @@ export async function start() {
   $("[data-discard]").addEventListener("click", () => { state.draft = clone(state.saved); render(); toast("Endringene er forkastet."); });
   window.addEventListener("hashchange", () => { current = location.hash.slice(1); render(); window.scrollTo(0, 0); });
   window.addEventListener("beforeunload", (e) => { if (state.draft && isDirty()) { e.preventDefault(); e.returnValue = ""; } });
-  try { await load(); render(); }
+  try {
+    await load();
+    for (const m of modules) if (m.init) m.init(ctx);
+    render();
+  }
   catch (e) { $("[data-main]").replaceChildren(ctx.el("p", { class: "error" }, e.message)); }
 }

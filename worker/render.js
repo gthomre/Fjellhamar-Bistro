@@ -33,6 +33,8 @@ export function isValidSite(s) {
   if (!weekOk) return false;
   if (s.takeaway && !(shortStr(s.takeaway.hours, 200) && shortStr(s.takeaway.last, 200))) return false;
   const st = s.status;
+  const bk = s.booking;
+  if (bk && !["confirmSubject", "confirmText", "declineSubject", "declineText"].every((k) => shortStr(bk[k], k.endsWith("Subject") ? 200 : 5000))) return false;
   if (st && !(typeof st.closed === "boolean" && st.reason in REASONS && shortStr(st.message, 1000) && isDate(st.from) && isDate(st.until))) return false;
   return true;
 }
@@ -140,7 +142,8 @@ export function renderPage(template, site, today) {
 
 /** Innholdet til assets/js/site-data.js (leses av main.js og menu.js). */
 export function siteScript(site) {
-  const data = { ...site, contact: { ...site.contact, tel: telOf(site.contact.phone) } };
+  const { booking, ...pub } = site; // standardtekstene for svar til gjester hører bare til admin
+  const data = { ...pub, contact: { ...site.contact, tel: telOf(site.contact.phone) } };
   return "/* Generert fra content/site.json – ikke rediger direkte */\n" +
     "window.BISTRO_SITE = " + JSON.stringify(data, null, 2).replace(/</g, "\\u003c") + ";\n";
 }

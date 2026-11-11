@@ -2,6 +2,7 @@
    • Sidene fylles med innhold fra KV (det kunden endrer i admin). Mangler eller feiler KV,
      brukes content/site.json fra bygget, så siden virker alltid.
    • /admin og /api/admin krever innlogging (Cloudflare Access).
+   • /api/booking tar imot bordbestillinger fra skjemaet (se bookings.js).
    • Alt annet (bilder, CSS, JS) serveres direkte som statiske filer. */
 import indexTpl from "../build/templates/index.html";
 import menyTpl from "../build/templates/meny.html";
@@ -10,6 +11,7 @@ import menuDefaults from "../content/menu.json";
 import { renderPage, siteScript, isValidSite } from "./render.js";
 import { menuScript, isValidMenu } from "./menu.js";
 import { authenticate } from "./auth.js";
+import { handlePublicBooking, handleAdminBookings } from "./bookings.js";
 
 const PAGES = { "/": indexTpl, "/index": indexTpl, "/index.html": indexTpl, "/meny": menyTpl, "/meny.html": menyTpl };
 const HISTORY_MAX = 20;
@@ -61,6 +63,8 @@ async function handleApi(request, env, url, user) {
     return json({ site, source, history, me: user.email, defaults });
   }
 
+  if (request.method === "GET" && path === "/bookings") return handleAdminBookings(request, env, "", {}, user);
+
   if (request.method !== "POST" && request.method !== "PUT") return json({ error: "Ikke støttet" }, 405);
   // Beskyttelse mot forespørsler fra andre nettsider
   if (request.headers.get("Origin") !== url.origin) return json({ error: "Ugyldig opprinnelse" }, 403);
@@ -68,6 +72,11 @@ async function handleApi(request, env, url, user) {
   if (body.length > 200_000) return json({ error: "For mye data" }, 413);
   let data;
   try { data = JSON.parse(body); } catch { return json({ error: "Ugyldig data" }, 400); }
+
+  if (path.startsWith("/bookings/")) {
+    const { site } = await loadSite(env);
+    return handleAdminBookings(request, env, path.slice("/bookings".length), data, user, site);
+  }
 
   if (request.method === "PUT" && path === "/content") {
     const site = data.site;
@@ -92,10 +101,16 @@ async function handleApi(request, env, url, user) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const p = url.pathname;
     const get = request.method === "GET" || request.method === "HEAD";
+
+    // ---- Bordbestilling fra skjemaet på nettsiden (åpen for alle) ----
+    if (p === "/api/booking") {
+      const { site } = await loadSite(env);
+      return handlePublicBooking(request, env, ctx, url, site);
+    }
 
     // ---- Admin (krever innlogging) ----
     if (p === "/admin" || p.startsWith("/admin/") || p.startsWith("/api/admin")) {

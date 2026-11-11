@@ -136,25 +136,68 @@
     };
     date.addEventListener("change", fillTimes);
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var data = new FormData(form), missing = [];
-      [["navn", "navn"], ["telefon", "telefon"], ["dato", "dato"], ["tid", "tid"]].forEach(function (f) { if (!String(data.get(f[0]) || "").trim()) missing.push(f[1]); });
-      if (missing.length) {
-        note.textContent = "Fyll inn " + missing.join(", ") + " så er du i mål."; note.classList.add("warn");
-        var first = form.querySelector('[name="' + (missing[0] === "navn" ? "navn" : missing[0]) + '"]'); if (first) first.focus();
-        return;
-      }
+    var btn = form.querySelector('[type="submit"]'), btnHtml = btn.innerHTML;
+    var mailtoFallback = function (data) {
       var subject = "Bordbestilling " + data.get("dato") + " kl. " + data.get("tid") + " – " + data.get("gjester") + " pers.";
       var body = [
         "Hei Fjellhamar Bistro!", "", "Jeg ønsker å bestille bord:", "",
-        "Navn: " + data.get("navn"), "Telefon: " + data.get("telefon"), "Dato: " + data.get("dato"), "Tid: " + data.get("tid"),
+        "Navn: " + data.get("navn"), "Telefon: " + data.get("telefon"), "E-post: " + data.get("epost"), "Dato: " + data.get("dato"), "Tid: " + data.get("tid"),
         "Antall gjester: " + data.get("gjester"), data.get("anledning") ? "Anledning: " + data.get("anledning") : "",
         data.get("melding") ? "\nMelding: " + data.get("melding") : "", "", "Hilsen " + data.get("navn")
       ].filter(function (l, i, a) { return l !== "" || a[i - 1] !== ""; }).join("\n");
       window.location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-      note.classList.remove("warn");
-      note.textContent = "E-postprogrammet ditt åpnes med bestillingen ferdig utfylt – trykk send, så bekrefter vi så snart vi kan.";
+      note.className = "form-note";
+      note.textContent = "Vi fikk ikke sendt bestillingen direkte, så e-postprogrammet ditt åpnes med bestillingen ferdig utfylt – trykk send. Du kan også ringe oss på " + SITE.contact.phone + ".";
+    };
+
+    /* Sperre for bestilling fra utlandet: skjemaet gråes ut (Worker-en stopper det uansett) */
+    var geoBlocked = false;
+    var blockForm = function (msg) {
+      geoBlocked = true;
+      form.classList.add("is-blocked");
+      form.setAttribute("aria-disabled", "true");
+      $$("input, select, textarea, button", form).forEach(function (el) { el.disabled = true; });
+      note.className = "form-note warn";
+      note.textContent = (msg || "Bordbestilling på nett er bare tilgjengelig fra Norge.") + " Telefon: " + SITE.contact.phone + ".";
+    };
+    fetch("/api/booking", { headers: { accept: "application/json" } })
+      .then(function (res) { return res.ok ? res.json() : null; })
+      .then(function (j) { if (j && j.allowed === false) blockForm(j.message); })
+      .catch(function () {});
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (geoBlocked) return;
+      var data = new FormData(form), missing = [];
+      [["navn", "navn"], ["telefon", "telefon"], ["epost", "e-post"], ["dato", "dato"], ["tid", "tid"]].forEach(function (f) { if (!String(data.get(f[0]) || "").trim()) missing.push(f); });
+      note.className = "form-note";
+      if (missing.length) {
+        note.textContent = "Fyll inn " + missing.map(function (f) { return f[1]; }).join(", ") + " så er du i mål."; note.classList.add("warn");
+        var first = form.querySelector('[name="' + missing[0][0] + '"]'); if (first) first.focus();
+        return;
+      }
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(String(data.get("epost")).trim())) {
+        note.textContent = "E-postadressen ser ikke helt riktig ut – sjekk den, så sender vi bekreftelsen dit."; note.classList.add("warn");
+        form.querySelector('[name="epost"]').focus(); return;
+      }
+      var payload = {}; data.forEach(function (v, k) { payload[k] = v; });
+      btn.disabled = true; btn.textContent = "Sender …";
+      fetch("/api/booking", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) })
+        .then(function (res) { return res.json().catch(function () { return {}; }).then(function (j) { return { res: res, j: j }; }); })
+        .then(function (r) {
+          if (r.res.ok && r.j.ok) {
+            var email = String(data.get("epost")).trim();
+            form.reset(); fillTimes();
+            note.className = "form-note ok";
+            note.textContent = "Takk! Vi har mottatt bestillingen din. Du får svar på e-post (" + email + ") så snart vi har sett på den.";
+          } else if (r.res.status === 403 && (r.j.geo || !r.j.error)) {
+            blockForm(r.j.error); /* sperret fra utlandet (også av en eventuell brannmurregel i Cloudflare) */
+          } else if (r.res.status >= 400 && r.res.status < 500 && r.j.error) {
+            note.className = "form-note warn"; note.textContent = r.j.error;
+          } else { mailtoFallback(data); }
+        })
+        .catch(function () { mailtoFallback(data); })
+        .then(function () { btn.innerHTML = btnHtml; if (!geoBlocked) btn.disabled = false; });
     });
   }
 })();

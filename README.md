@@ -63,4 +63,15 @@ worker/auth.js          Sjekker Cloudflare Access-innlogging
 worker/render.js        Fyller inn data i sidene (brukes av både bygg, Worker og admin)
 ```
 
+### Bordbestilling
+
+Skjemaet på forsiden sender til `/api/booking` (worker/bookings.js). Bestillingen lagres i KV (`booking:<dato>T<tid>~<id>`, slettes automatisk 60 dager etter datoen) og restauranten får varsel på e-post (adressen under Kontaktinfo).
+I admin → **Bordbestilling** bekrefter eller avslår Helene; gjesten får e-post med teksten fra **Standardtekster** (kan endres før sending). Status: *Venter svar*, *Bekreftet*, *Avslått*.
+
+E-post sendes via [Resend](https://resend.com) (worker/mail.js). Oppsett én gang:
+1. Opprett konto hos Resend, legg til domenet `fjellhamarbistro.no` og legg inn DNS-postene de viser i Cloudflare.
+2. Lag en API-nøkkel og legg den inn: `npx wrangler secret put RESEND_API_KEY`
+3. Avsender står i `MAIL_FROM` i `wrangler.jsonc`.
+Uten oppsettet virker alt annet, men admin viser tydelig at e-posten ikke ble sendt.
+
 **Ny funksjon i admin:** lag `admin/modules/<navn>.js` som kaller `register({...})` (se en eksisterende modul), og legg til én `import`-linje i `admin/index.html`.

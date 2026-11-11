@@ -28,5 +28,11 @@
     "message": "",
     "from": "",
     "until": ""
+  },
+  "booking": {
+    "confirmSubject": "Bordet ditt er bekreftet – {dato} kl. {tid}",
+    "confirmText": "Hei {navn}!\n\nTakk for bestillingen. Vi bekrefter gjerne bord for {gjester} personer {dato} kl. {tid}.\n\nBlir dere forsinket, eller må du avbestille, ring oss på {telefon}.\n\nVi gleder oss til å se dere!\n\nVennlig hilsen\nFjellhamar Bistro",
+    "declineSubject": "Om bordbestillingen din {dato}",
+    "declineText": "Hei {navn}!\n\nTusen takk for at du ville bestille bord hos oss. Dessverre er vi fullbooket {dato} kl. {tid}, så vi kan ikke ta imot bestillingen denne gangen.\n\nRing oss gjerne på {telefon}, så finner vi kanskje et annet tidspunkt som passer.\n\nVennlig hilsen\nFjellhamar Bistro"
   }
 }

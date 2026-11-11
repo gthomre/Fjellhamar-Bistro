@@ -410,6 +410,12 @@ p { margin: 0 0 1em; }
 .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--red); background: #fff; box-shadow: 0 0 0 4px rgba(181,18,27,0.12); }
 .form-note { grid-column: 1 / -1; font-size: 0.9rem; color: var(--muted); margin: 0; min-height: 1.4em; }
 .form-note.warn { color: var(--red); font-weight: 600; }
+.form-note.ok { color: #2f7a3a; font-weight: 600; }
+/* Bordbestilling sperret (besøk fra utlandet) */
+.form-grid.is-blocked .field, .form-grid.is-blocked .btn { opacity: 0.45; filter: grayscale(1); }
+.form-grid.is-blocked input, .form-grid.is-blocked select, .form-grid.is-blocked textarea, .form-grid.is-blocked .btn { cursor: not-allowed; }
+.form-grid.is-blocked .form-note { opacity: 1; filter: none; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .form-actions { grid-column: 1 / -1; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
 @media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } }
 

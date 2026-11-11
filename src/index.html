@@ -223,10 +223,11 @@
       <div class="booking-card reveal" id="bestill">
         <span class="eyebrow eyebrow--left">Bestill bord</span>
         <h2 id="bestill-title">Vi holder av et bord til deg</h2>
-        <p>Fyll inn skjemaet, så sender vi deg en bekreftelse. Haster det? Ring oss på <a href="tel:{{TEL}}">{{PHONE}}</a>.</p>
+        <p>Fyll inn skjemaet, så sender vi deg en bekreftelse på e-post. Haster det? Ring oss på <a href="tel:{{TEL}}">{{PHONE}}</a>.</p>
         <form class="form-grid" data-booking novalidate>
           <div class="field"><label for="b-name">Navn</label><input id="b-name" name="navn" autocomplete="name" required></div>
           <div class="field"><label for="b-phone">Telefon</label><input id="b-phone" name="telefon" type="tel" autocomplete="tel" inputmode="tel" required></div>
+          <div class="field field--full"><label for="b-email">E-post <span style="font-weight:400;color:var(--muted)">(bekreftelsen sendes hit)</span></label><input id="b-email" name="epost" type="email" autocomplete="email" inputmode="email" required></div>
           <div class="field"><label for="b-date">Dato</label><input id="b-date" name="dato" type="date" required></div>
           <div class="field"><label for="b-time">Tid</label><select id="b-time" name="tid" required><option value="">Velg dato først</option></select></div>
           <div class="field"><label for="b-guests">Antall gjester</label>
@@ -237,6 +238,7 @@
           <div class="field"><label for="b-occasion">Anledning <span style="font-weight:400;color:var(--muted)">(valgfritt)</span></label>
             <select id="b-occasion" name="anledning"><option value="">–</option><option>Bursdag</option><option>Jubileum</option><option>Firmamiddag</option><option>Annet</option></select>
           </div>
+          <div class="hp" aria-hidden="true"><label for="b-firma">Firma</label><input id="b-firma" name="firma" tabindex="-1" autocomplete="off"></div>
           <div class="field field--full"><label for="b-msg">Melding <span style="font-weight:400;color:var(--muted)">(allergier, barnestol o.l.)</span></label><textarea id="b-msg" name="melding"></textarea></div>
           <p class="form-note" data-form-note aria-live="polite"></p>
           <div class="form-actions">
