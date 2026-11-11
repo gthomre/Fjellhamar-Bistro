@@ -52,7 +52,7 @@
   <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
-  <symbol id="i-scooter" viewBox="0 0 24 24"><circle cx="6" cy="17" r="2.5"/><circle cx="18" cy="17" r="2.5"/><path d="M8.5 17h7M15 6h3l2 8M4 13h7l2-5h2M4 9h5"/></symbol>
+  <symbol id="i-scooter" viewBox="0 0 24 24"><rect x="2.5" y="5" width="7.5" height="6" rx="1.2"/><path d="M6.25 5v6"/><circle cx="6" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M8.5 17.5h5.5l2.4-7.5"/><path d="M2.5 14h11"/><path d="M14.5 4.5h2.5l1.5 10.5"/></symbol>
   <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
   <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
   <symbol id="i-utensils" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
@@ -163,6 +163,58 @@
         <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>
         <div><h3 data-open-label>Åpningstider</h3><p data-open-hours>Se når vi har åpent</p></div>
       </a>
+    </div>
+  </section>
+
+  <!-- ===== AKTUELT: julemeny (fra admin, vises bare i perioden) + gavekort – i samme stil som «Husets favoritt» ===== -->
+  <section class="promos" aria-label="Aktuelt">
+    <div class="wrap promo-grid">
+      <article class="promo reveal" data-season-card hidden></article>
+      <article class="promo reveal reveal-d1">
+        <a class="promo__photo promo__photo--gift" href="gavekort.html" tabindex="-1" aria-hidden="true">
+          <span class="frame"><!-- Gavekort 300 / 500 / 1000 kr – tegnet i SVG (deles av forsiden og gavekort.html) -->
+<svg class="giftcards" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Gavekort fra Fjellhamar Bistro på 300, 500 og 1000 kroner">
+  <defs>
+    <linearGradient id="gc-300" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffaf2"/><stop offset="1" stop-color="#f3e3cc"/></linearGradient>
+    <linearGradient id="gc-500" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c8161f"/><stop offset="1" stop-color="#7d0a10"/></linearGradient>
+    <linearGradient id="gc-1000" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5a0a0e"/><stop offset="1" stop-color="#2b0507"/></linearGradient>
+    <filter id="gc-sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#3f0b0e" flood-opacity=".28"/></filter>
+  </defs>
+  <g transform="translate(240 180) rotate(-9)" filter="url(#gc-sh)">
+    <rect x="-170" y="-107" width="340" height="214" rx="18" fill="url(#gc-300)"/>
+    <rect x="-158" y="-95" width="316" height="190" rx="11" fill="none" stroke="#b5121b" stroke-opacity=".55" stroke-width="1.2"/>
+    <text x="-140" y="-58" font-family="Merriweather, Georgia, serif" font-weight="700" font-size="13" letter-spacing="4" fill="#7d0a10">GAVEKORT</text>
+    <text x="142" y="-44" text-anchor="end" font-family="Merriweather, Georgia, serif" font-weight="900" font-size="44" fill="#b5121b">300<tspan font-size="18" font-weight="700" dx="5">kr</tspan></text>
+    <text x="-142" y="72" font-family="'Great Vibes', 'Brush Script MT', cursive" font-size="36" fill="#b5121b">Fjellhamar Bistro</text>
+    <circle cx="122" cy="56" r="27" fill="#fff"/><image href="assets/logo/logo-128.webp" x="99" y="33" width="46" height="46"/>
+  </g>
+  <g transform="translate(560 175) rotate(8)" filter="url(#gc-sh)">
+    <rect x="-170" y="-107" width="340" height="214" rx="18" fill="url(#gc-1000)"/>
+    <rect x="-158" y="-95" width="316" height="190" rx="11" fill="none" stroke="#d9a441" stroke-opacity=".55" stroke-width="1.2"/>
+    <text x="-140" y="-58" font-family="Merriweather, Georgia, serif" font-weight="700" font-size="13" letter-spacing="4" fill="#ffd9a0">GAVEKORT</text>
+    <text x="142" y="-44" text-anchor="end" font-family="Merriweather, Georgia, serif" font-weight="900" font-size="44" fill="#ffd9a0">1000<tspan font-size="18" font-weight="700" dx="5">kr</tspan></text>
+    <text x="-142" y="72" font-family="'Great Vibes', 'Brush Script MT', cursive" font-size="36" fill="#ffd9a0">Fjellhamar Bistro</text>
+    <circle cx="122" cy="56" r="27" fill="#fff"/><image href="assets/logo/logo-128.webp" x="99" y="33" width="46" height="46"/>
+  </g>
+  <g transform="translate(400 330) rotate(-2)" filter="url(#gc-sh)">
+    <rect x="-170" y="-107" width="340" height="214" rx="18" fill="url(#gc-500)"/>
+    <rect x="-158" y="-95" width="316" height="190" rx="11" fill="none" stroke="#ffd9a0" stroke-opacity=".55" stroke-width="1.2"/>
+    <text x="-140" y="-58" font-family="Merriweather, Georgia, serif" font-weight="700" font-size="13" letter-spacing="4" fill="#fff">GAVEKORT</text>
+    <text x="142" y="-44" text-anchor="end" font-family="Merriweather, Georgia, serif" font-weight="900" font-size="44" fill="#fff">500<tspan font-size="18" font-weight="700" dx="5">kr</tspan></text>
+    <text x="-142" y="72" font-family="'Great Vibes', 'Brush Script MT', cursive" font-size="36" fill="#ffd9a0">Fjellhamar Bistro</text>
+    <circle cx="122" cy="56" r="27" fill="#fff"/><image href="assets/logo/logo-128.webp" x="99" y="33" width="46" height="46"/>
+  </g>
+</svg>
+</span>
+        </a>
+        <div class="promo__copy">
+          <span class="eyebrow eyebrow--left">Kommer snart</span>
+          <h2><span class="script">Gi bort</span>Gavekort</h2>
+          <p>Snart kan du gi bort en god middag hos oss – til jul, bursdag eller som en takk.</p>
+          <div class="meta"><span class="chip">300 kr</span><span class="chip">500 kr</span><span class="chip">1000 kr</span></div>
+          <a class="btn btn--ghost btn--pill btn--sm" href="gavekort.html">Les mer <svg class="icon"><use href="#i-arrow"/></svg></a>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -369,6 +421,8 @@
     </div>
   </div>
 </footer>
+
+<template id="tpl-season-art"><svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="sg-gold" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff1c9"/><stop offset=".45" stop-color="#e2b04f"/><stop offset="1" stop-color="#8f5f17"/></radialGradient><radialGradient id="sg-red" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#ff6b6b"/><stop offset=".5" stop-color="#c3161f"/><stop offset="1" stop-color="#5a0a0e"/></radialGradient></defs><g fill="#fff" opacity=".35"><circle cx="40" cy="60" r="2"/><circle cx="360" cy="40" r="2.5"/><circle cx="70" cy="380" r="2"/><circle cx="340" cy="420" r="2"/><circle cx="30" cy="250" r="1.5"/><circle cx="380" cy="300" r="1.5"/><circle cx="160" cy="470" r="2"/><circle cx="260" cy="90" r="1.5"/></g><g stroke="#d9a441" stroke-width="1.5"><path d="M120 0v206M210 0v290M300 0v168"/></g><g transform="translate(120 248)"><rect x="-11" y="-50" width="22" height="13" rx="3" fill="#b8862f"/><circle r="40" fill="url(#sg-gold)"/><path d="M-38-10q38 14 76 0M-39 6q39 14 78 0" fill="none" stroke="#8f5f17" stroke-width="2" opacity=".55"/><ellipse cx="-14" cy="-16" rx="9" ry="5" fill="#fff" opacity=".45" transform="rotate(-30 -14 -16)"/></g><g transform="translate(210 344)"><rect x="-13" y="-62" width="26" height="15" rx="3" fill="#b8862f"/><circle r="52" fill="url(#sg-red)" stroke="#d9a441" stroke-width="2"/><path d="M-50-4l12 10 12-10 12 10 12-10 12 10 12-10 12 10 13-10" fill="none" stroke="#ffd9a0" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="-18" cy="-22" rx="12" ry="6" fill="#fff" opacity=".35" transform="rotate(-30 -18 -22)"/></g><g transform="translate(300 200)"><rect x="-9" y="-41" width="18" height="11" rx="3" fill="#b8862f"/><circle r="32" fill="url(#sg-gold)"/><circle r="7" cy="2" fill="#c3161f" opacity=".8"/><ellipse cx="-11" cy="-13" rx="7" ry="4" fill="#fff" opacity=".45" transform="rotate(-30 -11 -13)"/></g><g fill="#ffd9a0"><path d="M60 140l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/><path d="M345 330l2.5 7.5 7.5 2.5-7.5 2.5-2.5 7.5-2.5-7.5-7.5-2.5 7.5-2.5z"/><path d="M95 440l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/><path d="M262 450l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" opacity=".7"/></g></svg></template>
 
 
 <script src="assets/js/site-data.js"></script>

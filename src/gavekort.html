@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="nb" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gavekort – Fjellhamar Bistro, Lørenskog</title>
+<meta name="description" content="Gavekort fra Fjellhamar Bistro på 300, 500 eller 1000 kr kommer snart. Ring {{PHONE}} for mer informasjon.">
+<meta name="theme-color" content="#b5121b">
+<meta property="og:title" content="Gavekort – Fjellhamar Bistro">
+<meta property="og:description" content="Gavekort på 300, 500 eller 1000 kr – en gave som passer for alle.">
+<meta property="og:image" content="assets/img/hero-dishes-1600.webp">
+<link rel="icon" href="assets/logo/favicon-64.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/logo/apple-touch-icon.png">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/great-vibes-400.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/merriweather-900.woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body id="top">
+{{SPRITE}}
+{{HEADER:gavekort}}
+
+<main id="main">
+  <section class="hero menu-hero gift-hero" aria-labelledby="gift-title">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow hero-in">Kommer snart</span>
+        <h1 class="hero-title" id="gift-title"><span class="script hero-in hero-in-d1">Gavekort</span></h1>
+        <p class="hero-lead hero-in hero-in-d2">Snart kan du gi bort en god middag på Fjellhamar Bistro – til jul, bursdag, jubileum eller som en takk.</p>
+        <p class="season-pill hero-in hero-in-d2">Gavekortene er ikke i salg ennå – følg med!</p>
+        <div class="hero-cta hero-in hero-in-d3">
+          <a class="btn btn--primary" href="tel:{{TEL}}"><svg class="icon"><use href="#i-phone"/></svg>Ring {{PHONE}}</a>
+          <a class="btn btn--ghost" href="mailto:{{EMAIL}}?subject=Gavekort"><svg class="icon"><use href="#i-mail"/></svg>Send e-post</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <div class="shape">{{GIFTCARDS}}</div>
+        <svg class="swoosh" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M40 3.2C27 4.4 17 6.6 11.4 10.6 4.6 22 0.8 40 1.6 60" fill="none" stroke="#b5121b" stroke-width="5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="amount-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <svg class="ornament" aria-hidden="true"><use href="#i-pagoda"/></svg>
+        <h2 id="amount-title"><span class="script">Velg</span>beløp</h2>
+        <p>Tre gavekort å velge mellom.</p>
+      </div>
+      <div class="gift-amounts reveal">
+        <div class="gift-amount"><small>Gavekort</small><strong>300</strong><span>kroner</span></div>
+        <div class="gift-amount"><small>Gavekort</small><strong>500</strong><span>kroner</span></div>
+        <div class="gift-amount"><small>Gavekort</small><strong>1000</strong><span>kroner</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="how-title" style="background:var(--cream-2)">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <svg class="ornament" aria-hidden="true"><use href="#i-pagoda"/></svg>
+        <h2 id="how-title"><span class="script">Slik</span>fungerer det</h2>
+      </div>
+      <ol class="gift-steps">
+        <li class="reveal"><span class="ico"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg></span><h3>Kjøp</h3><p>Når gavekortene er klare, kjøper du dem i restauranten – eller ringer oss på <a href="tel:{{TEL}}">{{PHONE}}</a>.</p></li>
+        <li class="reveal reveal-d1"><span class="ico"><svg class="icon" aria-hidden="true"><use href="#i-gift"/></svg></span><h3>Gi bort</h3><p>Til jul, bursdag eller som en takk – en gave for alle som liker god mat.</p></li>
+        <li class="reveal reveal-d2"><span class="ico"><svg class="icon" aria-hidden="true"><use href="#i-utensils"/></svg></span><h3>Nyt maten</h3><p>Vis frem gavekortet når du betaler i restauranten, så trekker vi beløpet.</p></li>
+      </ol>
+      <div class="gift-terms reveal">
+        <h3>Godt å vite</h3>
+        <ul>
+          <li>Gavekortet er gyldig i 3 år fra kjøpsdato.</li>
+          <li>Kan brukes på mat og drikke i restauranten.</li>
+          <li>Kan ikke byttes inn i kontanter.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Spørsmål om gavekort">
+    <div class="wrap">
+      <div class="xmas-foot">
+        <p>Lurer du på når gavekortene kommer, eller vil du ha flere til firmaet? Ring oss eller send en e-post, så hjelper vi deg.</p>
+        <div class="actions">
+          <a class="btn btn--primary btn--pill btn--sm" href="tel:{{TEL}}"><svg class="icon"><use href="#i-phone"/></svg>Ring {{PHONE}}</a>
+          <a class="btn btn--ghost btn--pill btn--sm" href="mailto:{{EMAIL}}?subject=Gavekort">Send e-post</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+{{FOOTER}}
+
+<script src="assets/js/site-data.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

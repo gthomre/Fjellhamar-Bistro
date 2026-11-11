@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="nb" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Julemeny – Fjellhamar Bistro, Lørenskog</title>
+<meta name="description" content="Julemeny hos Fjellhamar Bistro på Fjellhamar i Lørenskog: pinnekjøtt, juletallerken, kinesisk juletallerken, pepperbiff og riskrem. Bestill bord på {{PHONE}}.">
+<meta name="theme-color" content="#b5121b">
+<meta property="og:title" content="Julemeny – Fjellhamar Bistro">
+<meta property="og:description" content="Norske juleklassikere og vår egen kinesiske juletallerken – serveres i restauranten.">
+<meta property="og:image" content="assets/img/hero-dishes-1600.webp">
+<link rel="icon" href="assets/logo/favicon-64.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/logo/apple-touch-icon.png">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/great-vibes-400.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/merriweather-900.woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body id="top">
+{{SPRITE}}
+{{HEADER:julemeny}}
+
+<main id="main">
+  <!-- Innholdet (tekster, retter, bilde) kommer fra admin → Meny → ★ Julemeny (assets/js/season.js) -->
+  <section class="hero menu-hero xmas-hero" aria-labelledby="xmas-title">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow hero-in" data-x-script>God jul</span>
+        <h1 class="hero-title" id="xmas-title"><span class="script hero-in hero-in-d1" data-x-title>Julemeny</span></h1>
+        <p class="hero-lead hero-in hero-in-d2" data-x-sub>Norske juleklassikere og vår egen kinesiske juletallerken.</p>
+        <p class="season-pill hero-in hero-in-d2" data-x-meta hidden></p>
+        <div class="hero-cta hero-in hero-in-d3">
+          <a class="btn btn--primary" href="index.html#bestill"><svg class="icon"><use href="#i-cal"/></svg>Bestill bord</a>
+          <a class="btn btn--ghost" href="tel:{{TEL}}"><svg class="icon"><use href="#i-phone"/></svg>Ring {{PHONE}}</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <div class="shape" data-x-media></div>
+        <svg class="swoosh" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M40 3.2C27 4.4 17 6.6 11.4 10.6 4.6 22 0.8 40 1.6 60" fill="none" stroke="#b5121b" stroke-width="5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-section" aria-labelledby="xmas-list-title">
+    <div class="wrap">
+      <div class="section-head">
+        <svg class="ornament ornament--star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.3l7.1-.7z"/></svg>
+        <h2 id="xmas-list-title"><span class="script">Juletid</span>på Fjellhamar</h2>
+      </div>
+      <ul class="menu-list" data-x-items></ul>
+      <p class="xmas-empty" data-x-empty hidden>Julemenyen er ikke tilgjengelig akkurat nå. <a href="meny.html">Se hele menyen</a>.</p>
+      <div class="xmas-foot">
+        <p>Har du allergier eller intoleranser? Si ifra til personalet, så hjelper vi deg å finne en trygg rett. Priser i NOK inkl. mva.</p>
+        <div class="actions">
+          <a class="btn btn--primary btn--pill btn--sm" href="index.html#bestill"><svg class="icon"><use href="#i-cal"/></svg>Bestill bord</a>
+          <a class="btn btn--ghost btn--pill btn--sm" href="meny.html">Se hele menyen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div style="height:clamp(80px,10vw,140px)"></div>
+</main>
+
+{{FOOTER}}
+{{SEASON_ART}}
+
+<script src="assets/js/site-data.js"></script>
+<script src="assets/js/menu-data.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/season.js"></script>
+</body>
+</html>

@@ -5,17 +5,21 @@
    • Alt annet (bilder, CSS, JS) serveres direkte som statiske filer. */
 import indexTpl from "../build/templates/index.html";
 import menyTpl from "../build/templates/meny.html";
+import julTpl from "../build/templates/julemeny.html";
+import giftTpl from "../build/templates/gavekort.html";
 import siteDefaults from "../content/site.json";
 import menuDefaults from "../content/menu.json";
 import { renderPage, siteScript, isValidSite } from "./render.js";
 import { menuScript, isValidMenu } from "./menu.js";
 import { authenticate } from "./auth.js";
 
-const PAGES = { "/": indexTpl, "/index": indexTpl, "/index.html": indexTpl, "/meny": menyTpl, "/meny.html": menyTpl };
+const PAGES = { "/": indexTpl, "/index": indexTpl, "/index.html": indexTpl, "/meny": menyTpl, "/meny.html": menyTpl, "/julemeny": julTpl, "/julemeny.html": julTpl, "/gavekort": giftTpl, "/gavekort.html": giftTpl };
 const HISTORY_MAX = 20;
 /** Reserve: innholdet fra bygget (content/site.json + content/menu.json) */
 const defaults = { ...siteDefaults, menu: menuDefaults };
-const withMenu = (s, fallback = menuDefaults) => (isValidMenu(s.menu) ? s : { ...s, menu: fallback });
+/* Lagret meny uten sesongmeny (lagret før julemenyen kom) får sesongmenyen fra content/menu.json */
+const withSeason = (m) => (m.season === undefined && menuDefaults.season ? { ...m, season: menuDefaults.season } : m);
+const withMenu = (s, fallback = menuDefaults) => ({ ...s, menu: withSeason(isValidMenu(s.menu) ? s.menu : fallback) });
 const PAGE_HEADERS = { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=0, must-revalidate" };
 
 /** Dagens dato i Norge, YYYY-MM-DD */
@@ -125,7 +129,7 @@ export default {
     if (get && (p === "/assets/js/site-data.js" || p === "/assets/js/menu-data.js")) {
       const { site } = await loadSite(env);
       const { _meta, menu, ...pub } = site;
-      return new Response(p.endsWith("menu-data.js") ? menuScript(menu) : siteScript(pub), { headers: { "content-type": "application/javascript; charset=utf-8", "cache-control": "public, max-age=0, must-revalidate" } });
+      return new Response(p.endsWith("menu-data.js") ? menuScript(menu, osloToday()) : siteScript(pub), { headers: { "content-type": "application/javascript; charset=utf-8", "cache-control": "public, max-age=0, must-revalidate" } });
     }
     return env.ASSETS.fetch(request);
   },

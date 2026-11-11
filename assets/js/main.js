@@ -81,6 +81,23 @@
   if (hrs) hrs.textContent = st.detail;
   $$('.hours-list [data-day="' + st.day + '"]').forEach(function (el) { el.classList.add("today"); });
 
+  /* ---- Aktuelt: julemeny ved siden av gavekort (samme stil som «Husets favoritt»). Styres i admin, vises bare i perioden. ---- */
+  var SEASON = window.BISTRO_SEASON, seasonCard = $("[data-season-card]");
+  if (seasonCard && SEASON) {
+    var art = document.getElementById("tpl-season-art");
+    seasonCard.innerHTML =
+      '<a class="promo__photo' + (SEASON.img ? "" : " promo__photo--art") + '" href="julemeny.html" tabindex="-1" aria-hidden="true"><span class="frame">' +
+        (SEASON.img ? '<img src="assets/img/' + SEASON.img + '-800.webp" alt="" loading="lazy" width="800" height="800">' : (art ? art.innerHTML : "")) + "</span>" +
+        "</a>" +
+      '<div class="promo__copy">' +
+        (SEASON.period ? '<span class="eyebrow eyebrow--left">' + esc(SEASON.period.replace(/(\d+\. \w{3})\w*/g, "$1")) + "</span>" : "") +
+        "<h2>" + (SEASON.script ? '<span class="script">' + esc(SEASON.script) + "</span>" : "") + esc(SEASON.title) + "</h2>" +
+        (SEASON.sub ? "<p>" + esc(SEASON.sub) + "</p>" : "") +
+        '<a class="btn btn--ghost btn--pill btn--sm" href="julemeny.html">Se menyen <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>' +
+      "</div>";
+    seasonCard.hidden = false;
+  }
+
   /* ---- Kombinasjonsmenyer ---- */
   var combos = $("[data-combos]");
   if (combos && window.BISTRO_COMBOS) {

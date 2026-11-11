@@ -1,4 +1,12 @@
 {
+  "season": {"on": true, "from": "2026-11-06", "until": "2026-12-30", "script": "God jul", "title": "Årets julemiddag",
+    "sub": "Norske juleklassikere og vår egen kinesiske juletallerken – serveres kun i restauranten.", "img": "", "items": [
+      {"n": "", "no": "KINESISK JULETALLERKEN", "d": "Wonton, kylling vårrull, sprøstekt ribbe og Szechuan kylling", "en": "Wonton, chicken spring roll, crispy pork belly and Szechuan chicken", "p": 399, "a": [14, 12, 2, 5, 6]},
+      {"n": "", "no": "JULETALLERKEN", "d": "Sprøstekt ribbe, julepølse, medisterkake, surkål/rødkål og poteter i brunsaus", "en": "Crispy pork belly, Christmas sausage, meat patty, sauerkraut/red cabbage and potatoes in gravy", "p": 399, "a": [14, 6], "nor": true},
+      {"n": "", "no": "PEPPERBIFF (200 G)", "d": "Serveres med poteter, salat og peppersaus", "en": "Pepper steak with potatoes, salad and pepper sauce", "p": 419, "a": [14, 6]},
+      {"n": "", "no": "PINNEKJØTT", "d": "Servert med vossakorv, kålrabistappe og poteter", "en": "Cured lamb ribs with Voss sausage, mashed swede and potatoes", "p": 499, "a": [14, 6], "nor": true},
+      {"n": "", "no": "RISKREM", "d": "", "en": "Norwegian rice cream", "p": 95, "a": [6]}
+    ]},
   "combos": [
     {"name": "Meny A", "min": "Minimum 2 personer", "price": 449, "courses": [
       {"icon": "i-soup", "no": "PEKING SOUP", "en": "Hot and sour soup", "a": [5, 14, 2], "hot": true},

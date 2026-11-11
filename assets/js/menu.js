@@ -1,7 +1,7 @@
 /* Fjellhamar Bistro – menyside */
 (function () {
   "use strict";
-  var A = window.BISTRO_ALLERGENS, MENU = window.BISTRO_MENU, SPECIAL = window.BISTRO_SPECIAL;
+  var A = window.BISTRO_ALLERGENS, MENU = window.BISTRO_MENU, SPECIAL = window.BISTRO_SPECIAL, SEASON = window.BISTRO_SEASON;
   function $(s, c) { return (c || document).querySelector(s); }
   function $$(s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
@@ -44,7 +44,7 @@
     if (it.veg) chips = '<span style="background:#e3f1e3;color:#2f6b34">Vegetar</span>' + chips;
     if (it.nor) chips = '<span style="background:#e8eef7;color:#2f4a73">Norsk klassiker</span>' + chips;
     return '<li class="menu-item" data-a="' + it.a.join(",") + '">' + media +
-      "<div><h4>" + (it.n && !it.img ? '<span class="sr-only">Nr. ' + esc(it.n) + " </span>" : "") + esc(it.no) + window.BISTRO_BADGES(it) + '</h4><p class="en">' + esc(it.en) + '</p><div class="allergens">' + chips + "</div></div>" +
+      "<div><h4>" + (it.n && !it.img ? '<span class="sr-only">Nr. ' + esc(it.n) + " </span>" : "") + esc(it.no) + window.BISTRO_BADGES(it) + "</h4>" + (it.d ? '<p class="desc">' + esc(it.d) + "</p>" : "") + (it.en ? '<p class="en">' + esc(it.en) + "</p>" : "") + '<div class="allergens">' + chips + "</div></div>" +
       priceHTML(it) + "</li>";
   }
   if (root && MENU) {
@@ -57,10 +57,23 @@
     }).join("");
   }
 
+  /* Sesongmeny (julemeny) – egen seksjon øverst */
+  var seasonRoot = $("[data-season-menu]");
+  if (seasonRoot && SEASON) {
+    var dineOnly = !SEASON.items.some(function (it) { return it.t; });
+    var meta = [SEASON.period, dineOnly ? "Kun i restauranten" : ""].filter(Boolean).join(" · ");
+    seasonRoot.innerHTML = '<section class="menu-section menu-section--season" id="' + SEASON.id + '" aria-labelledby="h-season" data-cat><div class="wrap">' +
+      '<div class="section-head"><svg class="ornament ornament--star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.3l7.1-.7z"/></svg>' +
+      '<h2 id="h-season">' + (SEASON.script ? '<span class="script">' + esc(SEASON.script) + "</span>" : "") + esc(SEASON.title) + "</h2>" +
+      (SEASON.sub ? "<p>" + esc(SEASON.sub) + "</p>" : "") + (meta ? '<p class="season-pill">' + esc(meta) + "</p>" : "") + "</div>" +
+      (SEASON.img ? '<figure class="season-banner"><img src="assets/img/' + SEASON.img + '-1600.webp" alt="' + esc(SEASON.title) + '" loading="lazy" width="1600" height="900"></figure>' : "") +
+      '<ul class="menu-list">' + SEASON.items.map(itemHTML).join("") + "</ul></div></section>";
+  }
+
   /* Kategori-piller + scrollspy */
   var catNav = $("[data-cat-nav]");
-  var cats = [{ id: "kombinasjonsmenyer", title: "Kombinasjonsmenyer" }].concat(MENU.map(function (c) { return { id: c.id, title: c.title }; }));
-  catNav.innerHTML = cats.map(function (c) { return '<a class="cat-pill" href="#' + c.id + '">' + esc(c.title) + "</a>"; }).join("");
+  var cats = (SEASON ? [{ id: SEASON.id, title: SEASON.title, season: true }] : []).concat([{ id: "kombinasjonsmenyer", title: "Kombinasjonsmenyer" }], MENU.map(function (c) { return { id: c.id, title: c.title }; }));
+  catNav.innerHTML = cats.map(function (c) { return '<a class="cat-pill' + (c.season ? " cat-pill--season" : "") + '" href="#' + c.id + '">' + esc(c.title) + "</a>"; }).join("");
   var pills = $$(".cat-pill", catNav);
   var track = catNav.parentNode;
   function updArrows() {
@@ -87,7 +100,7 @@
       else p.removeAttribute("aria-current");
     });
   }
-  setActive("kombinasjonsmenyer"); initial = false;
+  setActive(cats[0].id); initial = false;
   if ("IntersectionObserver" in window) {
     var spy = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) setActive(en.target.id); });

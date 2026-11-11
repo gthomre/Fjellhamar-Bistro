@@ -96,6 +96,25 @@
     </div>
   </section>
 
+  <!-- ===== AKTUELT: julemeny (fra admin, vises bare i perioden) + gavekort – i samme stil som «Husets favoritt» ===== -->
+  <section class="promos" aria-label="Aktuelt">
+    <div class="wrap promo-grid">
+      <article class="promo reveal" data-season-card hidden></article>
+      <article class="promo reveal reveal-d1">
+        <a class="promo__photo promo__photo--gift" href="gavekort.html" tabindex="-1" aria-hidden="true">
+          <span class="frame">{{GIFTCARDS}}</span>
+        </a>
+        <div class="promo__copy">
+          <span class="eyebrow eyebrow--left">Kommer snart</span>
+          <h2><span class="script">Gi bort</span>Gavekort</h2>
+          <p>Snart kan du gi bort en god middag hos oss – til jul, bursdag eller som en takk.</p>
+          <div class="meta"><span class="chip">300 kr</span><span class="chip">500 kr</span><span class="chip">1000 kr</span></div>
+          <a class="btn btn--ghost btn--pill btn--sm" href="gavekort.html">Les mer <svg class="icon"><use href="#i-arrow"/></svg></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <!-- ===== HUSETS FAVORITTER ===== -->
   <section class="section signature" id="favoritter" aria-labelledby="fav-title">
     <div class="wrap">
@@ -262,6 +281,7 @@
 </main>
 
 {{FOOTER}}
+{{SEASON_ART}}
 
 <script src="assets/js/site-data.js"></script>
 <script src="assets/js/menu-data.js"></script>

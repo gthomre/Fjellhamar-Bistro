@@ -1,10 +1,12 @@
 /* Modul: Meny – retter, priser, takeaway, allergener, merker, skjul/utsolgt, rekkefølge.
+   Sesongmeny (julemeny o.l.): på/av, periode, tekster, bilde og egne retter.
    Kombinasjonsmenyer og spesialkombo: priser. */
 import { register } from "../app.js";
-import { ALLERGENS } from "../menu.js";
+import { ALLERGENS, seasonLive, seasonPeriod } from "../menu.js";
 
 const FLAGS = [["hot", "Sterk 🌶"], ["new", "Nyhet"], ["veg", "Vegetar"], ["nor", "Norsk klassiker"]];
-const COMBO_TAB = "__kombo";
+const COMBO_TAB = "__kombo", SEASON_TAB = "__sesong";
+const today = () => new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Oslo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
 let tab = "", query = "", openItem = null;
 
 const kr = (v) => (Number.isInteger(v) ? v + ",-" : "–");
@@ -12,6 +14,7 @@ const intOrNaN = (s) => (/^\d+$/.test(String(s).trim()) ? parseInt(s, 10) : NaN)
 
 function allItems(menu) {
   const out = [];
+  if (menu.season) menu.season.items.forEach((it, i) => out.push({ cat: { title: menu.season.title || "Sesongmeny" }, list: menu.season.items, it, i }));
   menu.categories.forEach((c) => c.groups.forEach((g) => g.items.forEach((it, i) => out.push({ cat: c, list: g.items, it, i }))));
   return out;
 }
@@ -31,6 +34,9 @@ register({
       if (!Number.isInteger(it.p)) return name + ": prisen må være et helt tall.";
       if (it.t !== undefined && !Number.isInteger(it.t)) return name + ": takeaway-prisen må være et helt tall (eller tom).";
     }
+    const se = d.menu.season;
+    if (se && !String(se.title || "").trim()) return "Sesongmeny: skriv inn en tittel (f.eks. Julemeny).";
+    if (se && se.from && se.until && se.until < se.from) return se.title + ": «Vises til og med» kan ikke være før «Vises fra».";
     for (const c of d.menu.combos) if (!Number.isInteger(c.price)) return c.name + ": prisen må være et helt tall.";
     const s = d.menu.special;
     if (!Number.isInteger(s.price) || !Number.isInteger(s.takeaway)) return "Spesialkombo: prisene må være hele tall.";
@@ -38,7 +44,7 @@ register({
   },
   render(el, ctx) {
     const h = ctx.el, menu = ctx.state.draft.menu;
-    if (!tab || (tab !== COMBO_TAB && !menu.categories.some((c) => c.id === tab))) tab = menu.categories[0].id;
+    if (!tab || (tab !== COMBO_TAB && tab !== SEASON_TAB && !menu.categories.some((c) => c.id === tab)) || (tab === SEASON_TAB && !menu.season)) tab = menu.season ? SEASON_TAB : menu.categories[0].id;
     const images = [...new Set([...allItems(menu), ...allItems(ctx.state.defaults.menu)].map((x) => x.it.img).filter(Boolean))].sort();
 
     const search = h("input", { type: "search", placeholder: "Søk etter rett eller nummer …", value: query, "aria-label": "Søk i menyen",
@@ -48,7 +54,7 @@ register({
     el.append(h("div", { class: "menu-tools" }, search), ctx.scroller(pills), list);
 
     function drawPills() {
-      pills.replaceChildren(...[...menu.categories.map((c) => [c.id, c.title]), [COMBO_TAB, "Kombinasjonsmenyer"]].map(([id, title]) =>
+      pills.replaceChildren(...[...(menu.season ? [[SEASON_TAB, "★ " + (menu.season.title || "Sesongmeny")]] : []), ...menu.categories.map((c) => [c.id, c.title]), [COMBO_TAB, "Kombinasjonsmenyer"]].map(([id, title]) =>
         h("button", { type: "button", class: "pill", role: "tab", "aria-selected": String(id === tab && !query), onclick: () => { tab = id; query = ""; search.value = ""; openItem = null; drawPills(); drawList(); } }, title)));
       requestAnimationFrame(() => ctx.revealInRow(pills, pills.querySelector('[aria-selected="true"]')));
     }
@@ -91,6 +97,7 @@ register({
         h("div", { class: "row-nr" },
           field("Nr", h("input", { value: it.n, maxlength: 6, oninput: (e) => { it.n = e.target.value.trim(); rerenderRow(); ctx.change(); } })),
           field("Navn", h("input", { value: it.no, maxlength: 200, oninput: (e) => { it.no = e.target.value; rerenderRow(); ctx.change(); } }))),
+        field("Beskrivelse (norsk) ", h("input", { value: it.d || "", maxlength: 300, oninput: (e) => { if (e.target.value.trim()) it.d = e.target.value; else delete it.d; ctx.change(); } }), "Valgfritt – vises under navnet."),
         field("Beskrivelse (engelsk)", h("input", { value: it.en, maxlength: 300, oninput: (e) => { it.en = e.target.value; ctx.change(); } })),
         h("div", { class: "row2" }, field("Pris i restauranten (kr)", numIn("p", true)), field("Takeaway-pris (kr)", numIn("t", false))),
         h("div", { class: "field" }, h("span", { class: "label" }, "Allergener"), allergenChips),
@@ -132,7 +139,49 @@ register({
         h("p", { class: "tip" }, "Rettene i kombinasjonsmenyene endres av Thomre ved behov."));
     }
 
+    function drawSeason() {
+      const s = menu.season;
+      const status = h("p", { class: "statusline" });
+      const refresh = () => {
+        const t = today(), period = seasonPeriod(s);
+        if (!s.on) { status.className = "statusline statusline--closed"; status.textContent = "Av – vises ikke på nettsiden."; }
+        else if (!s.items.some((i) => !i.off)) { status.className = "statusline statusline--closed"; status.textContent = "Ingen retter er synlige – menyen vises ikke."; }
+        else if (seasonLive(s, t)) { status.className = "statusline statusline--ok"; status.textContent = "Nå: vises som reklame på forsiden, på egen side (/julemeny) og øverst på menysiden" + (s.until ? " til og med " + period.split(" – ").pop() : "") + "."; }
+        else if (s.from && t < s.from) { status.className = "statusline statusline--plan"; status.textContent = "Planlagt: vises " + period + "."; }
+        else { status.className = "statusline statusline--plan"; status.textContent = "Perioden er over – vises ikke. Sett nye datoer for å bruke den igjen."; }
+        pillTitle();
+      };
+      const pillTitle = () => { const p = pills.querySelector('[aria-selected="true"]'); if (p) p.textContent = "★ " + (s.title || "Sesongmeny"); };
+      const upd = (k, v) => { s[k] = v; refresh(); ctx.change(); };
+      const text = (k, label, max, hint) => h("div", { class: "field" }, h("label", {}, label, h("input", { value: s[k] || "", maxlength: max, oninput: (e) => upd(k, e.target.value) })), hint ? h("small", {}, hint) : null);
+      const date = (k, label, hint) => h("div", { class: "field" }, h("label", {}, label, h("input", { type: "date", value: s[k] || "", oninput: (e) => upd(k, e.target.value) })), h("small", {}, hint));
+      const img = h("select", { onchange: (e) => upd("img", e.target.value) },
+        h("option", { value: "" }, "Ingen bilde – pyntet illustrasjon"), images.map((n) => h("option", { value: n, selected: s.img === n }, n)));
+      const items = s.items;
+
+      list.replaceChildren(
+        status,
+        h("label", { class: "switchcard" },
+          h("input", { type: "checkbox", role: "switch", checked: s.on, onchange: (e) => upd("on", e.target.checked) }),
+          h("span", { class: "switch" }),
+          h("span", {}, h("strong", {}, "Vis på nettsiden"), h("small", {}, "Vises bare mellom datoene nedenfor – og skrur seg av selv etterpå."))),
+        h("div", { class: "group" },
+          h("div", { class: "row2" }, date("from", "Vises fra", "Første dag menyen vises."), date("until", "Vises til og med", "Siste dag menyen vises.")),
+          h("div", { class: "row2" }, text("title", "Tittel", 80), text("script", "Pyntetekst over tittelen", 80, "Skrives med skriveskrift, f.eks. «God jul».")),
+          text("sub", "Tekst under tittelen", 300),
+          h("div", { class: "field" }, h("label", {}, "Bilde", img), h("small", {}, "Nye bilder legges inn av Thomre."))),
+        h("h3", { class: "grp" }, "Retter"),
+        h("div", { class: "dishes" }, items.map((it, i) => dishRow(it, items, i))),
+        h("button", { type: "button", class: "btn btn--ghost add", onclick: () => {
+          const it = { n: "", no: "", en: "", p: 0, a: [] };
+          items.push(it); openItem = it; ctx.change(); drawList();
+        } }, "+ Legg til rett i " + (s.title || "sesongmenyen")),
+        h("p", { class: "tip" }, "Tom takeaway-pris = «Kun i restauranten». Er ingen retter takeaway, står det automatisk på nettsiden."));
+      refresh();
+    }
+
     function drawList() {
+      if (!query && tab === SEASON_TAB) return drawSeason();
       if (!query && tab === COMBO_TAB) return drawCombos();
       const q = query.trim().toLowerCase();
       if (q) {

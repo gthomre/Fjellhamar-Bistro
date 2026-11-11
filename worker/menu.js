@@ -20,7 +20,7 @@ const allergens = (a) => Array.isArray(a) && a.length <= 14 && a.every((n) => Nu
 const imgName = (v) => typeof v === "string" && /^[a-z0-9-]{1,60}$/.test(v);
 
 export function isValidItem(i) {
-  return !!i && str(i.n, 6) && str(i.no, 200, true) && str(i.en, 300) && price(i.p) && opt(i.t, price) && allergens(i.a) &&
+  return !!i && str(i.n, 6) && str(i.no, 200, true) && opt(i.d, (v) => str(v, 300)) && str(i.en, 300) && price(i.p) && opt(i.t, price) && allergens(i.a) &&
     opt(i.img, imgName) && bool(i.hot) && bool(i.new) && bool(i.veg) && bool(i.nor) && bool(i.off);
 }
 
@@ -34,13 +34,65 @@ export function isValidMenu(m) {
   const s = m.special;
   const specialOk = price(s.price) && price(s.takeaway) && imgName(s.img) && Array.isArray(s.options) && s.options.length <= 6 &&
     s.options.every((o) => o && str(o.key, 4, true) && str(o.no, 300, true) && str(o.en, 300) && allergens(o.a) && bool(o.hot) && bool(o.new));
-  return catsOk && combosOk && specialOk;
+  return catsOk && combosOk && specialOk && isValidSeason(m.season);
+}
+
+/* ---------- Sesongmeny (julemeny o.l.) ----------
+   Én meny som vises i en periode: bånd på forsiden + egen seksjon først på menysiden.
+   «until» er siste dag den vises (til og med). Mangler den i lagret meny, brukes content/menu.json. */
+const MONTH_NO = ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"];
+const isDate = (d) => d === "" || (typeof d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d));
+
+export function isValidSeason(s) {
+  if (s === undefined) return true;
+  return !!s && typeof s.on === "boolean" && str(s.title, 80, true) && str(s.script, 80) && str(s.sub, 300) &&
+    isDate(s.from) && isDate(s.until) && opt(s.img, (v) => v === "" || imgName(v)) &&
+    Array.isArray(s.items) && s.items.length <= 60 && s.items.every(isValidItem);
+}
+
+/** «6. november» fra 2026-11-06 */
+const dayMonth = (iso) => { const [, m, d] = iso.split("-").map(Number); return d + ". " + MONTH_NO[m - 1]; };
+/** «6. november – 30. desember» / «fra 6. november» / «til og med 30. desember» / "" */
+export function seasonPeriod(s) {
+  if (s.from && s.until) return dayMonth(s.from) + " – " + dayMonth(s.until);
+  if (s.from) return "fra " + dayMonth(s.from);
+  if (s.until) return "til og med " + dayMonth(s.until);
+  return "";
+}
+
+/** Vises sesongmenyen i dag (YYYY-MM-DD, norsk tid)? Uten dato sjekkes bare på/av (nettleseren sjekker datoene). */
+export function seasonLive(s, today) {
+  if (!s || !s.on || !s.items.some((i) => !i.off)) return false;
+  if (!today) return true;
+  return (!s.from || today >= s.from) && (!s.until || today <= s.until);
+}
+
+/** Anker-id på menysiden: «Julemeny» -> julemeny (meny.html#julemeny) */
+export function seasonId(s, categories = []) {
+  const id = String(s.title).toLowerCase().replace(/æ/g, "ae").replace(/ø/g, "o").replace(/å/g, "a")
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "sesongmeny";
+  return categories.some((c) => c.id === id) || id === "kombinasjonsmenyer" || id === "allergener" ? id + "-sesong" : id;
 }
 
 const js = (v) => JSON.stringify(v).replace(/</g, "\u003c");
 
-/** Innholdet til assets/js/menu-data.js. Retter merket «off» (skjult/utsolgt) tas ikke med. */
-export function menuScript(menu) {
+/* Nettleseren sjekker datoene på nytt (norsk tid), så en bufret/statisk fil aldri viser menyen utenfor perioden. */
+const SEASON_JS = String.raw`window.BISTRO_SEASON = (function (s) {
+  if (!s) return null;
+  try { var t = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Oslo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+    if ((s.from && t < s.from) || (s.until && t > s.until)) return null; } catch (e) {}
+  return s;
+})(`;
+
+/** Innholdet til assets/js/menu-data.js. Retter merket «off» (skjult/utsolgt) tas ikke med.
+    `today` (YYYY-MM-DD) gis av Worker-en, så sesongmenyen bare sendes med i perioden. */
+export function menuScript(menu, today) {
+  const s = menu.season;
+  const season = seasonLive(s, today) ? {
+    id: seasonId(s, menu.categories), title: s.title, script: s.script, sub: s.sub, img: s.img || "",
+    from: s.from, until: s.until, period: seasonPeriod(s),
+    items: s.items.filter((i) => !i.off).map(({ off, ...i }) => i),
+  } : null;
   const categories = menu.categories.map((c) => ({
     ...c,
     groups: c.groups.map((g) => ({ ...g, items: g.items.filter((i) => !i.off).map(({ off, ...i }) => i) })),
@@ -50,5 +102,6 @@ export function menuScript(menu) {
     "window.BISTRO_ALLERGENS = " + js(ALLERGENS) + ";\n" +
     "window.BISTRO_COMBOS = " + js(menu.combos) + ";\n" +
     "window.BISTRO_SPECIAL = " + js(menu.special) + ";\n" +
-    "window.BISTRO_MENU = " + js(categories) + ";\n";
+    "window.BISTRO_MENU = " + js(categories) + ";\n" +
+    SEASON_JS + js(season) + ");\n";
 }

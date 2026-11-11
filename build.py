@@ -4,7 +4,7 @@ Krever Python og Node."""
 import pathlib, re, shutil, subprocess, sys
 
 root = pathlib.Path(__file__).parent
-parts = {n: (root / "partials" / f"{n}.html").read_text(encoding="utf-8") for n in ("sprite", "header", "footer")}
+parts = {n: (root / "partials" / f"{n}.html").read_text(encoding="utf-8") for n in ("sprite", "header", "footer", "giftcards", "season-art")}
 
 # 1) Maler (med {{FELT}} for kontaktinfo og åpningstider) – brukes også av Worker-en
 tpl_dir = root / "build" / "templates"
@@ -12,6 +12,7 @@ tpl_dir.mkdir(parents=True, exist_ok=True)
 for src in (root / "src").glob("*.html"):
     html = src.read_text(encoding="utf-8")
     html = html.replace("{{SPRITE}}", parts["sprite"]).replace("{{FOOTER}}", parts["footer"])
+    html = html.replace("{{GIFTCARDS}}", parts["giftcards"]).replace("{{SEASON_ART}}", parts["season-art"])
 
     def header(m):
         cur = m.group(1)

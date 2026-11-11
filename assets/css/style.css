@@ -787,8 +787,8 @@ p { margin: 0 0 1em; }
 /* Hjemlevering via foodora (av/på og lenke i admin → Åpningstider). Ingen priser her – bevisst. */
 .delivery-strip { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 14px 0 0; padding: 12px 14px 12px 16px; border: 1px dashed rgba(181, 18, 27, 0.35); border-radius: 14px; background: #fff; }
 .delivery-strip + .allergen-bar { margin-top: 16px; }
-.delivery-strip__ico { flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--cream-2); color: var(--red); }
-.delivery-strip__ico .icon { width: 20px; height: 20px; }
+.delivery-strip__ico { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--cream-2); color: var(--red); }
+.delivery-strip__ico .icon { width: 26px; height: 26px; stroke-width: 1.9; }
 .delivery-strip p { margin: 0; flex: 1 1 220px; font-size: 0.95rem; color: var(--ink); line-height: 1.4; }
 .delivery-strip p strong { color: var(--wine); }
 .delivery-strip p small { display: block; color: var(--muted); font-size: 0.85rem; }
@@ -797,9 +797,107 @@ p { margin: 0 0 1em; }
 .delivery-strip__link:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
 .delivery-strip__link .icon { width: 15px; height: 15px; }
 .visit-info a.visit-delivery { font-weight: 700; }
-.hero-delivery { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin: 22px 0 0; font-size: 1rem; color: var(--muted); }
-.hero-delivery .icon { width: 20px; height: 20px; color: var(--red); margin-right: 2px; }
+.hero-delivery { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin: 22px 0 0; font-size: 1.02rem; color: var(--ink); }
+.hero-delivery .icon { flex: none; box-sizing: content-box; width: 30px; height: 30px; padding: 9px; border-radius: 50%; background: #fff; border: 1.5px solid rgba(181, 18, 27, 0.3); color: var(--red); stroke-width: 1.9; margin-right: 4px; box-shadow: var(--shadow-sm); }
 .hero-delivery a { color: var(--red-deep); font-weight: 700; text-decoration: underline; text-decoration-color: rgba(181, 18, 27, 0.35); text-underline-offset: 3px; }
 .hero-delivery a:hover { text-decoration-color: currentColor; }
 .seg button .ta-sub { margin-left: -8px; } /* knappen har gap: 8px; &nbsp; gir mellomrommet */
 @media (max-width: 640px) { .ta-sub { display: none; } }
+
+/* ---------- Sesongmeny (julemeny o.l.) – styres i admin ---------- */
+/* Forsiden: «Aktuelt» – julemeny + gavekort i samme formspråk som «Husets favoritt» (organisk bilde, rundt merke, skriveskrift) */
+.promos { padding-block: clamp(8px, 2vw, 24px) clamp(8px, 2vw, 24px); }
+.promo__copy .eyebrow { white-space: nowrap; letter-spacing: 0.24em; }
+.promo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.promo-grid:has(> [hidden]) { grid-template-columns: minmax(0, 640px); justify-content: center; }
+.promo { display: grid; grid-template-columns: clamp(150px, 15vw, 200px) minmax(0, 1fr); gap: clamp(20px, 2.6vw, 36px); align-items: center; padding: 8px clamp(16px, 3vw, 44px); }
+.promo[hidden] { display: none; }
+.promo + .promo { border-left: 1px solid var(--line); }
+.promo__photo { position: relative; display: block; }
+.promo__photo .frame { position: relative; display: block; aspect-ratio: 1; overflow: hidden; border-radius: 42% 58% 54% 46% / 48% 44% 56% 52%; box-shadow: var(--shadow); transition: border-radius 0.8s var(--ease); }
+.promo + .promo .promo__photo .frame { border-radius: 55% 45% 48% 52% / 46% 56% 44% 54%; }
+.promo__photo:hover .frame { border-radius: 50% 50% 46% 54% / 52% 48% 52% 48%; }
+.promo__photo .frame > img, .promo__photo .frame > svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.promo__photo--art .frame { background: radial-gradient(circle at 50% 35%, #c81a24 0%, var(--red-deep) 55%, var(--wine) 100%); }
+.promo__photo--gift .frame { background: radial-gradient(120% 90% at 50% 30%, #fffaf2 0%, var(--cream-2) 65%, var(--cream-3) 100%); }
+.promo__photo--gift .frame > svg { transform: scale(1.3); }
+.promo__photo .price-badge { width: 86px; right: -10px; top: -6px; transform: rotate(8deg); outline-offset: -9px; border-width: 3px; }
+.promo__photo .price-badge small { font-size: 0.58rem; letter-spacing: 0.14em; margin-bottom: 3px; }
+.promo__photo .price-badge strong { font-size: 1.2rem; }
+.promo__copy h2 { font-size: clamp(1.9rem, 2.8vw, 2.5rem); font-weight: 900; color: var(--wine); letter-spacing: -0.02em; line-height: 1; margin: 12px 0 10px; }
+.promo__copy h2 .script { display: block; font-size: 1.15em; margin-bottom: 0.02em; }
+.promo__copy p { margin: 0 0 14px; color: var(--muted); max-width: 42ch; }
+.promo__copy .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.promo__copy .btn .icon { width: 1em; height: 1em; }
+@media (max-width: 960px) {
+  .promo-grid { grid-template-columns: 1fr; max-width: 640px; margin-inline: auto; }
+  .promo + .promo { border-left: 0; border-top: 1px solid var(--line); margin-top: 20px; padding-top: 28px; }
+}
+@media (max-width: 520px) {
+  .promo { grid-template-columns: 118px minmax(0, 1fr); gap: 18px; padding-inline: 0; align-items: start; }
+  .promo__photo { margin-top: 6px; }
+  .promo__photo .price-badge { width: 66px; right: -12px; top: -12px; outline-offset: -7px; }
+  .promo__photo .price-badge small { font-size: 0.48rem; letter-spacing: 0.1em; }
+  .promo__photo .price-badge strong { font-size: 0.95rem; }
+  .promo__copy .eyebrow { font-size: 0.68rem; letter-spacing: 0.16em; gap: 10px; }
+  .promo__copy .eyebrow::after { width: 24px; }
+  .promo__copy .meta .chip { padding: 4px 10px; font-size: 0.82rem; }
+  .promo__copy .meta { gap: 6px; }
+  .promo__copy p { font-size: 0.98rem; }
+}
+
+/* Egen side: gavekort.html */
+.gift-hero .shape { background: radial-gradient(120% 100% at 60% 40%, #fffaf2 0%, var(--cream-2) 55%, var(--cream-3) 100%); }
+.gift-hero .shape::after { display: none; }
+.gift-hero .shape svg { position: absolute; left: 12%; top: 8%; width: 80%; height: 84%; }
+.gift-hero .hero-cta { justify-content: center; }
+.gift-hero .hero-copy .season-pill { margin: 0 0 26px !important; }
+.gift-amounts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 2.4vw, 28px); max-width: 900px; margin-inline: auto; }
+.gift-amount { background: #fff; border: 1px solid rgba(125, 10, 16, 0.1); border-radius: 22px; box-shadow: var(--shadow-sm); padding: 26px 16px 22px; text-align: center; }
+.gift-amount small { display: block; font-size: 0.76rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.gift-amount strong { display: block; font-family: var(--f-display); font-weight: 900; font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.1; margin: 6px 0 2px; color: var(--red); font-variant-numeric: tabular-nums; }
+.gift-amount span { color: var(--muted); font-size: 0.95rem; }
+.gift-steps { list-style: none; margin: 0 auto; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 28px); max-width: 1040px; counter-reset: step; }
+.gift-steps li { position: relative; background: #fff; border-radius: 22px; padding: 28px 24px 26px; border: 1px solid rgba(125, 10, 16, 0.1); box-shadow: var(--shadow-sm); }
+.gift-steps li::before { counter-increment: step; content: counter(step); position: absolute; right: 22px; top: 12px; font-family: var(--f-display); font-weight: 900; font-size: 2.6rem; line-height: 1; color: rgba(181, 18, 27, 0.12); }
+.gift-steps .ico { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; background: var(--cream-2); color: var(--red); margin-bottom: 14px; }
+.gift-steps .ico .icon { width: 26px; height: 26px; }
+.gift-steps h3 { font-size: 1.25rem; font-weight: 900; color: var(--wine); margin-bottom: 6px; }
+.gift-steps p { margin: 0; color: var(--muted); }
+.gift-terms { max-width: 760px; margin: clamp(40px, 5vw, 64px) auto 0; padding: 26px 28px; border-radius: 22px; background: #fff; border: 1px dashed rgba(125, 10, 16, 0.25); }
+.gift-terms h3 { font-size: 1.2rem; font-weight: 900; margin-bottom: 12px; }
+.gift-terms ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.gift-terms li { position: relative; padding-left: 28px; }
+.gift-terms li::before { content: ""; position: absolute; left: 4px; top: 0.45em; width: 12px; height: 7px; border-left: 2px solid var(--red); border-bottom: 2px solid var(--red); transform: rotate(-45deg); }
+@media (max-width: 860px) { .gift-steps { grid-template-columns: 1fr; max-width: 520px; } }
+@media (max-width: 900px) { .gift-hero .hero-copy { text-align: center; } }
+@media (max-width: 420px) { .gift-amount { padding: 20px 8px 16px; } .gift-amount small { letter-spacing: 0.1em; font-size: 0.68rem; } }
+
+/* Egen side: julemeny.html */
+.xmas-hero .hero-title .script { white-space: normal; font-size: clamp(3.4rem, 6.4vw, 6rem); line-height: 1.05; padding-top: 0.15em; }
+.xmas-hero .hero-copy .season-pill { margin: 0 0 26px !important; }
+.xmas-hero .hero-cta { justify-content: center; }
+.xmas-hero .hero-media img { transform: none; object-position: 50% 50%; }
+.xmas-hero .shape--art { background: radial-gradient(circle at 50% 35%, #c81a24 0%, var(--red-deep) 55%, var(--wine) 100%); }
+.xmas-hero .shape--art::after { display: none; }
+.xmas-hero .shape svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.xmas-empty { text-align: center; color: var(--muted); }
+.xmas-foot { margin-top: 40px; padding: 26px 28px; border-radius: 22px; background: var(--cream-2); display: flex; align-items: center; justify-content: space-between; gap: 16px 24px; flex-wrap: wrap; }
+.xmas-foot p { margin: 0; color: var(--muted); max-width: 60ch; }
+.xmas-foot .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.menu-item .price small { display: block; margin-top: 2px; font-family: var(--f-body); font-weight: 600; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+@media (max-width: 900px) { .xmas-hero .hero-copy { text-align: center; } }
+@media (max-width: 480px) { .season-pill { font-size: 0.82rem !important; padding: 5px 12px; } }
+
+/* Menysiden */
+.cat-pill--season { border-color: var(--gold); background: #fff7e6; }
+.cat-pill--season::before { content: "★"; color: var(--gold); margin-right: 8px; font-size: 0.9em; }
+.cat-pill--season.is-active::before { color: #ffd9a0; }
+.ornament--star { fill: var(--gold); stroke: none; }
+.menu-section--season .section-head p { max-width: 52ch; margin-inline: auto; }
+.season-pill { display: inline-block; margin-top: 14px !important; padding: 6px 16px; border-radius: 999px; background: #fff7e6; border: 1px solid rgba(217, 164, 65, 0.6); color: var(--red-deep) !important; font-size: 0.92rem !important; }
+.season-banner { margin: 0 0 28px; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 21 / 8; box-shadow: var(--shadow); }
+.season-banner img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 640px) { .season-banner { aspect-ratio: 16 / 10; } }
+.menu-item .desc { margin: 3px 0 0; font-size: 0.95rem; line-height: 1.4; color: var(--ink); }
+.menu-item .desc + .en { margin-top: 2px; font-size: 0.85rem; color: var(--muted); font-style: italic; }

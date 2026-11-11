@@ -10,7 +10,7 @@ const site = read("content/site.json"), menu = read("content/menu.json");
 if (!isValidSite(site)) { console.error("content/site.json har feil format"); process.exit(1); }
 if (!isValidMenu(menu)) { console.error("content/menu.json har feil format"); process.exit(1); }
 
-for (const name of ["index.html", "meny.html"]) {
+for (const name of ["index.html", "meny.html", "julemeny.html", "gavekort.html"]) {
   const tpl = readFileSync(new URL("build/templates/" + name, root), "utf8");
   writeFileSync(new URL(name, root), renderPage(tpl, site));
   console.log("bygget", name);
