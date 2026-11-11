@@ -103,7 +103,7 @@
     document.documentElement.classList.toggle("mode-ta", m === "ta");
     modeBtns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-mode") === m)); });
     if (modeNote) modeNote.innerHTML = m === "ta"
-      ? "<strong>Takeaway:</strong> " + esc(TA.hours || "") + " · " + esc(TA.last || "") + ' · <a href="tel:' + esc(PH.tel || "") + '">Ring ' + esc(PH.phone || "") + "</a>"
+      ? "<strong>Takeaway – hent selv:</strong> " + esc(TA.hours || "") + " · " + esc(TA.last || "") + ' · <a href="tel:' + esc(PH.tel || "") + '">Ring ' + esc(PH.phone || "") + "</a>"
       : "Priser ved servering i restauranten.";
     if (save) { try { localStorage.setItem(MODE_KEY, m); } catch (e) {} }
   }

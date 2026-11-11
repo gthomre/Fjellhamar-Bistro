@@ -19,6 +19,7 @@ export const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", 
 const isTime = (t) => typeof t === "string" && /^([01]\d|2[0-3]):[0-5]\d$/.test(t);
 const isDate = (d) => d === "" || (typeof d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d));
 const shortStr = (v, max) => typeof v === "string" && v.length <= max;
+export const isHttps = (u) => typeof u === "string" && /^https:\/\/[^\s"<>]+$/.test(u);
 
 /** Sjekker at innholdet har riktig form – ellers brukes reservedataene. */
 export function isValidSite(s) {
@@ -32,6 +33,8 @@ export function isValidSite(s) {
   });
   if (!weekOk) return false;
   if (s.takeaway && !(shortStr(s.takeaway.hours, 200) && shortStr(s.takeaway.last, 200))) return false;
+  const dl = s.delivery;
+  if (dl && !(typeof dl.enabled === "boolean" && shortStr(dl.url, 300) && (dl.url === "" || isHttps(dl.url)))) return false;
   const st = s.status;
   if (st && !(typeof st.closed === "boolean" && st.reason in REASONS && shortStr(st.message, 1000) && isDate(st.from) && isDate(st.until))) return false;
   return true;
@@ -115,7 +118,19 @@ export function tokens(site) {
     `    { "@type": "OpeningHoursSpecification", "dayOfWeek": ${JSON.stringify(g.days.length === 1 ? g.days[0] : g.days)}, "opens": "${g.o}", "closes": "${g.c}" }`
   ).join(",\n");
 
+  // Hjemlevering (foodora): vises bare når den er slått på og har lenke. Aldri priser ved siden av.
+  const dl = site.delivery, dlUrl = dl && dl.enabled && isHttps(dl.url) ? esc(dl.url) : "";
+  const deliveryStrip = dlUrl ? `    <div class="delivery-strip">
+      <span class="delivery-strip__ico"><svg class="icon" aria-hidden="true"><use href="#i-scooter"/></svg></span>
+      <p><strong>Vil du heller ha maten levert hjem?</strong><small>Hjemlevering skjer via foodora.</small></p>
+      <a class="delivery-strip__link" href="${dlUrl}" target="_blank" rel="noopener">Bestill levering på foodora<svg class="icon" aria-hidden="true"><use href="#i-external"/></svg><span class="sr-only"> (åpnes i ny fane)</span></a>
+    </div>
+` : "";
+  const deliveryRow = dlUrl ? `          <a class="visit-delivery" href="${dlUrl}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-scooter"/></svg>Levering hjem via foodora ↗<span class="sr-only"> (åpnes i ny fane)</span></a>
+` : "";
+
   return {
+    DELIVERY_STRIP: deliveryStrip, DELIVERY_ROW: deliveryRow,
     PHONE: esc(c.phone), PHONE_LD: esc("+47 " + c.phone), TEL: telOf(c.phone),
     EMAIL: esc(c.email), STREET: esc(c.street), POSTCODE: esc(c.postcode), CITY: esc(c.city),
     ADDRESS: esc(address), ADDRESS_Q: esc(addressQ),

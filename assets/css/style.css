@@ -783,3 +783,19 @@ p { margin: 0 0 1em; }
 }
 
 .hours-list .kitchen { margin-top: 6px; font-style: italic; opacity: 0.88; }
+
+/* Hjemlevering via foodora (av/på og lenke i admin → Åpningstider). Ingen priser her – bevisst. */
+.delivery-strip { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 14px 0 0; padding: 12px 14px 12px 16px; border: 1px dashed rgba(181, 18, 27, 0.35); border-radius: 14px; background: #fff; }
+.delivery-strip + .allergen-bar { margin-top: 16px; }
+.delivery-strip__ico { flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--cream-2); color: var(--red); }
+.delivery-strip__ico .icon { width: 20px; height: 20px; }
+.delivery-strip p { margin: 0; flex: 1 1 220px; font-size: 0.95rem; color: var(--ink); line-height: 1.4; }
+.delivery-strip p strong { color: var(--wine); }
+.delivery-strip p small { display: block; color: var(--muted); font-size: 0.85rem; }
+.delivery-strip__link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; border: 1px solid rgba(181, 18, 27, 0.45); color: var(--red-deep); font-family: var(--f-display); font-weight: 700; font-size: 0.92rem; text-decoration: none; white-space: nowrap; transition: background 0.2s var(--ease), border-color 0.2s var(--ease); }
+.delivery-strip__link:hover { background: var(--cream); border-color: var(--red); }
+.delivery-strip__link:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.delivery-strip__link .icon { width: 15px; height: 15px; }
+.visit-info a.visit-delivery { font-weight: 700; }
+.seg button .ta-sub { margin-left: -8px; } /* knappen har gap: 8px; &nbsp; gir mellomrommet */
+@media (max-width: 640px) { .ta-sub { display: none; } }

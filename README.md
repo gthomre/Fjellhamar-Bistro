@@ -25,6 +25,7 @@ assets/logo/            Logo og favicon
 
 - **Priser og retter:** endres av kunden i admin (`/admin` → Meny). Startmenyen/reserven ligger i `content/menu.json`.
 - **Åpningstider, kjøkken, takeaway-tider, telefon, e-post og adresse:** `content/site.json` – ett sted, oppdaterer hele siden (bunn, toppmeny, «åpent nå», bordbestilling, Google-data). Kjør `python build.py` etterpå.
+- **Hjemlevering (foodora):** av/på og lenke i admin → Åpningstider (`delivery` i `content/site.json`). Vises som boks på menysiden og lenke i kontaktboksen på forsiden – bevisst uten priser, siden prisene på nettsiden gjelder «takeaway – hent selv».
 - **Tekst på sidene:** rediger `src/index.html` eller `src/meny.html`, og kjør deretter:
 
 ```powershell

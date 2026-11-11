@@ -42,6 +42,10 @@ window.BISTRO_SITE = {
     "hours": "Tirsdag–søndag 14:00–21:30",
     "last": "Siste bestilling 21:15"
   },
+  "delivery": {
+    "enabled": true,
+    "url": "https://www.foodora.no/restaurant/eqev/fjellhamar-bistro-eqev"
+  },
   "status": {
     "closed": false,
     "reason": "ferie",

@@ -25,7 +25,7 @@ async function loadSite(env, fresh = false) {
   if (!env.CONTENT) return { site: defaults, source: "default" };
   try {
     const s = await env.CONTENT.get("site", fresh ? { type: "json" } : { type: "json", cacheTtl: 60 });
-    return isValidSite(s) ? { site: withMenu(s), source: "kv" } : { site: defaults, source: "default" };
+    return isValidSite(s) ? { site: withMenu(s.delivery ? s : { ...s, delivery: siteDefaults.delivery }), source: "kv" } : { site: defaults, source: "default" };
   } catch (e) {
     console.error("KV-feil, bruker reservedata:", e);
     return { site: defaults, source: "default" };
