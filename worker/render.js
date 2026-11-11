@@ -129,8 +129,11 @@ export function tokens(site) {
   const deliveryRow = dlUrl ? `          <a class="visit-delivery" href="${dlUrl}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-scooter"/></svg>Levering hjem via foodora ↗<span class="sr-only"> (åpnes i ny fane)</span></a>
 ` : "";
 
+  const deliveryHero = dlUrl ? `        <p class="hero-delivery hero-in hero-in-d3"><svg class="icon" aria-hidden="true"><use href="#i-scooter"/></svg>Vil du ha maten levert hjem? <a href="${dlUrl}" target="_blank" rel="noopener">Bestill via foodora&nbsp;↗<span class="sr-only"> (åpnes i ny fane)</span></a></p>
+` : "";
+
   return {
-    DELIVERY_STRIP: deliveryStrip, DELIVERY_ROW: deliveryRow,
+    DELIVERY_STRIP: deliveryStrip, DELIVERY_ROW: deliveryRow, DELIVERY_HERO: deliveryHero,
     PHONE: esc(c.phone), PHONE_LD: esc("+47 " + c.phone), TEL: telOf(c.phone),
     EMAIL: esc(c.email), STREET: esc(c.street), POSTCODE: esc(c.postcode), CITY: esc(c.city),
     ADDRESS: esc(address), ADDRESS_Q: esc(addressQ),

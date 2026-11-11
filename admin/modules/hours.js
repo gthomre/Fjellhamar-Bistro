@@ -52,7 +52,7 @@ register({
     const dlSwitch = h("label", { class: "switchcard" },
       h("input", { type: "checkbox", role: "switch", checked: d.delivery.enabled, onchange: (e) => { d.delivery.enabled = e.target.checked; ctx.change(); } }),
       h("span", { class: "switch" }),
-      h("span", {}, h("strong", {}, "Vis «Levering hjem via foodora»"), h("small", {}, "Knapp på menysiden og lenke ved kontaktinfo på forsiden. Ingen priser vises ved lenken.")));
+      h("span", {}, h("strong", {}, "Vis «Levering hjem via foodora»"), h("small", {}, "Lenke øverst på forsiden, boks på menysiden og lenke ved kontaktinfo. Ingen priser vises ved lenken.")));
 
     el.append(
       h("div", { class: "group" }, rows),

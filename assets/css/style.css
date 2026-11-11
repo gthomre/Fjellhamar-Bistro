@@ -797,5 +797,9 @@ p { margin: 0 0 1em; }
 .delivery-strip__link:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
 .delivery-strip__link .icon { width: 15px; height: 15px; }
 .visit-info a.visit-delivery { font-weight: 700; }
+.hero-delivery { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin: 22px 0 0; font-size: 1rem; color: var(--muted); }
+.hero-delivery .icon { width: 20px; height: 20px; color: var(--red); margin-right: 2px; }
+.hero-delivery a { color: var(--red-deep); font-weight: 700; text-decoration: underline; text-decoration-color: rgba(181, 18, 27, 0.35); text-underline-offset: 3px; }
+.hero-delivery a:hover { text-decoration-color: currentColor; }
 .seg button .ta-sub { margin-left: -8px; } /* knappen har gap: 8px; &nbsp; gir mellomrommet */
 @media (max-width: 640px) { .ta-sub { display: none; } }
